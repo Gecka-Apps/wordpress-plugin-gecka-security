@@ -1,0 +1,142 @@
+#!/usr/bin/env bash
+#
+# Builds the translation files: the template from the code, the catalogs
+# merged with it, and from each catalog the .mo and the .l10n.php that
+# WordPress loads.
+#
+# With --check, writes nothing: the template the code gives, made in a
+# temporary file, must hold the same strings as languages/gecka-security.pot,
+# every catalog must translate each of them, none fuzzy, and each .l10n.php
+# must carry the translations of its catalog. Exits 1 otherwise, the
+# differences on stderr. It needs WP-CLI only, so that it runs in the CI.
+#
+# Usage: bin/i18n [--check]
+
+set -euo pipefail
+
+source=$(cd "$(dirname "$0")/.." && pwd)
+languages="$source/languages"
+template="$languages/gecka-security.pot"
+
+make_pot() {
+    wp i18n make-pot "$source" "$1" \
+        --slug=gecka-security \
+        --domain=gecka-security \
+        --exclude=node_modules,vendor,tests,.tests,bin,build \
+        --headers='{"Report-Msgid-Bugs-To":"https://github.com/Gecka-Apps/wordpress-plugin-gecka-security/issues"}' \
+        --quiet
+}
+
+if [ "${1:-}" != --check ]; then
+    make_pot "$template"
+    wp i18n update-po "$template" "$languages" --quiet
+    wp i18n make-mo "$languages" "$languages" --quiet
+    wp i18n make-php "$languages" --quiet
+    exit 0
+fi
+
+work=$(mktemp -d)
+trap 'rm -rf "$work"' EXIT
+fresh="$work/gecka-security.pot"
+make_pot "$fresh"
+
+php -- "$fresh" "$template" "$languages" <<'PHP'
+<?php
+// Compares the template the code gives with the one committed, and checks
+// each catalog and its .l10n.php against the template.
+[, $fresh, $template, $languages] = $argv;
+
+/**
+ * The entries of a .po or .pot file, by key (context, EOT, original), the
+ * header and the obsolete entries left out.
+ *
+ * @param string $file Path of the .po or .pot file.
+ *
+ * @return array<string, array{plural: bool, translations: list<string>, fuzzy: bool}>
+ */
+function entries(string $file): array
+{
+    $entries = [];
+
+    foreach (preg_split('/\R{2,}/', trim((string) file_get_contents($file))) as $block) {
+        $fields = [];
+        $field = null;
+        $fuzzy = false;
+
+        foreach (preg_split('/\R/', $block) as $line) {
+            if (str_starts_with($line, '#,') && str_contains($line, 'fuzzy')) {
+                $fuzzy = true;
+            } elseif (preg_match('/^(msgctxt|msgid_plural|msgid|msgstr(?:\[\d+\])?) "(.*)"$/', $line, $match)) {
+                $field = $match[1];
+                $fields[$field] = stripcslashes($match[2]);
+            } elseif ($field !== null && preg_match('/^"(.*)"$/', $line, $match)) {
+                $fields[$field] .= stripcslashes($match[1]);
+            }
+        }
+
+        if (($fields['msgid'] ?? '') === '') {
+            continue;
+        }
+
+        $key = isset($fields['msgctxt']) ? $fields['msgctxt'] . "\4" . $fields['msgid'] : $fields['msgid'];
+        $translations = [];
+
+        foreach ($fields as $name => $value) {
+            if (str_starts_with($name, 'msgstr')) {
+                $translations[] = $value;
+            }
+        }
+
+        $entries[$key] = ['plural' => isset($fields['msgid_plural']), 'translations' => $translations, 'fuzzy' => $fuzzy];
+    }
+
+    return $entries;
+}
+
+$show = static fn(string $key): string => str_replace("\4", ' | ', $key);
+$problems = [];
+$code = entries($fresh);
+$committed = entries($template);
+
+foreach (array_diff_key($code, $committed) as $key => $entry) {
+    $problems[] = 'gecka-security.pot lacks: ' . $show($key);
+}
+
+foreach (array_diff_key($committed, $code) as $key => $entry) {
+    $problems[] = 'gecka-security.pot holds a string the code no longer has: ' . $show($key);
+}
+
+foreach (glob($languages . '/*.po') as $catalog) {
+    $name = basename($catalog);
+    $translated = entries($catalog);
+    $compiled = substr($catalog, 0, -3) . '.l10n.php';
+    $messages = is_file($compiled) ? ((include $compiled)['messages'] ?? []) : null;
+
+    if ($messages === null) {
+        $problems[] = "$name has no .l10n.php";
+    }
+
+    foreach ($code as $key => $entry) {
+        $translation = $translated[$key] ?? null;
+
+        if ($translation === null || in_array('', $translation['translations'], true)) {
+            $problems[] = "$name does not translate: " . $show($key);
+        } elseif ($translation['fuzzy']) {
+            $problems[] = "$name has a fuzzy translation of: " . $show($key);
+        } elseif ($messages !== null && ($messages[$key] ?? null) !== implode("\0", $translation['translations'])) {
+            $problems[] = basename($compiled) . ' does not carry the translation of: ' . $show($key);
+        }
+    }
+}
+
+foreach ($problems as $problem) {
+    fwrite(STDERR, $problem . "\n");
+}
+
+if ($problems !== []) {
+    fwrite(STDERR, "Run bin/i18n, then translate what is missing.\n");
+    exit(1);
+}
+
+echo count($code), " strings, translated and compiled.\n";
+PHP

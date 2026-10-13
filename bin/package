@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+#
+# Copies the plugin as it ships into a directory: every file .distignore does
+# not exclude. The dependencies are those vendor/ holds, which have to be
+# installed without the dev ones (composer install --no-dev). The directory
+# is emptied first.
+#
+# Usage: bin/package <directory>
+
+set -euo pipefail
+
+source=$(cd "$(dirname "$0")/.." && pwd)
+target=${1:?Usage: bin/package <directory>}
+
+grep -q '"dev": false' "$source/vendor/composer/installed.json" 2>/dev/null \
+    || { echo "vendor/ holds the dev dependencies, or nothing: run composer install --no-dev first" >&2; exit 1; }
+
+mkdir -p "$target"
+rsync -a --delete --delete-excluded --exclude-from="$source/.distignore" "$source/" "$target/"

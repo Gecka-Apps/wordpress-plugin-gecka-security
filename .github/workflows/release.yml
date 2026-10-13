@@ -1,0 +1,57 @@
+# On a release tag (vX.Y.Z): the GitHub release of the tag, titled after the
+# message of the tag, with the changelog entry of readme.txt and the zip of
+# the plugin, gecka-security-X.Y.Z.zip, to install from the admin of
+# WordPress or to submit to WordPress.org.
+
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Release ${{ github.ref_name }}
+    runs-on: ubuntu-latest
+    # The tag reaches the scripts as a variable, never pasted into them.
+    env:
+      TAG: ${{ github.ref_name }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: mbstring, zip
+          coverage: none
+
+      - name: Versions
+        id: version
+        run: echo "version=$(bin/check-version "$TAG")" >> "$GITHUB_OUTPUT"
+
+      # Out of the tree, which bin/package copies.
+      - name: Changelog
+        run: bin/changelog '${{ steps.version.outputs.version }}' > "$RUNNER_TEMP/notes.md"
+
+      - name: Install dependencies
+        run: composer install --no-dev --no-interaction --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Package
+        run: |
+          bin/package build/gecka-security
+          bin/zip build/gecka-security 'gecka-security-${{ steps.version.outputs.version }}.zip'
+
+      # The checkout leaves the tag lightweight: its message comes with a fetch.
+      - name: Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git fetch --quiet --force origin "refs/tags/$TAG:refs/tags/$TAG"
+          title=$(git tag -l --format='%(contents:subject)' "$TAG")
+          gh release create "$TAG" 'gecka-security-${{ steps.version.outputs.version }}.zip' \
+            --verify-tag --title "${title:-$TAG}" --notes-file "$RUNNER_TEMP/notes.md"

@@ -1,0 +1,58 @@
+#!/usr/bin/env php
+<?php
+
+// SPDX-FileCopyrightText: 2026 Gecka <contact@gecka.nc>
+// SPDX-License-Identifier: GPL-3.0-or-later
+
+/*
+ * Zips a directory as the top folder of the archive, the way WordPress wants
+ * a plugin it installs from a zip: bin/zip build/gecka-security out.zip puts
+ * every file under gecka-security/. An existing archive is replaced.
+ *
+ * Usage: bin/zip <directory> <archive>
+ */
+
+declare(strict_types=1);
+
+if ($argc !== 3 || ! is_dir($argv[1])) {
+    fwrite(STDERR, "Usage: bin/zip <directory> <archive>\n");
+    exit(1);
+}
+
+$source = rtrim((string) realpath($argv[1]), '/');
+$archive = $argv[2];
+$top = basename($source);
+
+if (is_file($archive)) {
+    unlink($archive);
+}
+
+$zip = new ZipArchive();
+
+if ($zip->open($archive, ZipArchive::CREATE) !== true) {
+    fwrite(STDERR, "Cannot create $archive\n");
+    exit(1);
+}
+
+$zip->addEmptyDir($top);
+$items = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($source, FilesystemIterator::SKIP_DOTS), RecursiveIteratorIterator::SELF_FIRST);
+$paths = [];
+
+foreach ($items as $item) {
+    $paths[$top . substr($item->getPathname(), strlen($source))] = $item;
+}
+
+ksort($paths, SORT_STRING);
+
+foreach ($paths as $name => $item) {
+    if ($item->isDir()) {
+        $zip->addEmptyDir($name);
+    } else {
+        $zip->addFile($item->getPathname(), $name);
+    }
+}
+
+if (! $zip->close()) {
+    fwrite(STDERR, "Cannot write $archive\n");
+    exit(1);
+}

@@ -1,0 +1,122 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint:
+    name: Code style and static analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: mbstring
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress --prefer-dist
+
+      - name: Code style
+        run: composer lint:php
+
+      - name: Static analysis
+        run: composer analyse
+
+  # The translations follow the code: every string in the template,
+  # translated in each catalog and compiled into its .l10n.php.
+  i18n:
+    name: Translations
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          tools: wp-cli
+          # WP-CLI reads the whole plugin in memory.
+          ini-values: memory_limit=512M
+          coverage: none
+
+      - name: Check
+        run: bin/i18n --check
+
+  # The oldest PHP the plugin supports: PHPCompatibility reads the code, this
+  # job has the parser of that version run it.
+  syntax:
+    name: PHP 8.2 syntax
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          coverage: none
+
+      - name: Lint
+        run: find . -name '*.php' -not -path './vendor/*' -not -path './tests/*' -print0 | xargs -0 -n1 php -l
+
+  # The tests run in a WordPress the suite installs, on SQLite. Pest 4 needs
+  # PHP 8.3, so 8.2 is left to PHPStan and to the syntax job.
+  test:
+    name: Tests on PHP ${{ matrix.php }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.3', '8.4', '8.5']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, pdo_sqlite
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress --prefer-dist
+
+      - name: Tests
+        run: composer test
+
+      - name: Tests on a network
+        run: composer test:multisite
+
+  # The package as it ships, through the checks the plugin directory of
+  # WordPress.org runs on a submission. Plugin Check wants the text domain to
+  # match the folder: the package is built as gecka-security.
+  plugin-check:
+    name: Plugin Check of the package
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: mbstring
+          coverage: none
+
+      - name: Versions
+        run: bin/check-version
+
+      - name: Install dependencies
+        run: composer install --no-dev --no-interaction --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Package
+        run: bin/package build/gecka-security
+
+      - uses: wordpress/plugin-check-action@v1
+        with:
+          build-dir: build/gecka-security

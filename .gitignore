@@ -1,0 +1,94 @@
+node_modules/
+vendor/
+build/
+builds/
+reports/
+/.tests/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# JetBrains (PhpStorm)
+.idea/
+*.iml
+*.iws
+/out/
+.fleet/
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+.history/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+[._]*.s[a-v][a-z]
+!*.svg
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+Session.vim
+Sessionx.vim
+.netrwhist
+/tags
+[._]*.un~
+
+# Emacs
+\#*\#
+.\#*
+*.elc
+auto-save-list
+.projectile
+.dir-locals.el
+
+# NetBeans
+/nbproject/
+/nbbuild/
+/nbdist/
+
+# Eclipse
+/.project
+/.settings/
+/.buildpath
+/.metadata/
+
+# Zed, Nova
+.zed/
+.nova/

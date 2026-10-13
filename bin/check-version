@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+#
+# Checks that the version of the plugin is the same in the header of
+# bootstrap.php, in Plugin::VERSION and in the Stable tag of readme.txt, and,
+# given one, that it is that version: the name of a release tag, with or
+# without its leading v. Prints the version.
+#
+# Usage: bin/check-version [version]
+
+set -euo pipefail
+
+source=$(cd "$(dirname "$0")/.." && pwd)
+header=$(sed -n 's/^ \* Version: *//p' "$source/bootstrap.php")
+constant=$(sed -n "s/^ *public const VERSION = '\(.*\)';/\1/p" "$source/inc/core/Plugin.php")
+stable=$(sed -n 's/^Stable tag: *//p' "$source/readme.txt" | tr -d '\r')
+expected=${1:-$header}
+expected=${expected#v}
+
+status=0
+
+for found in "bootstrap.php header:$header" "Plugin::VERSION:$constant" "readme.txt Stable tag:$stable"; do
+    if [ "${found##*:}" != "$expected" ]; then
+        echo "${found%:*} is '${found##*:}', expected '$expected'" >&2
+        status=1
+    fi
+done
+
+[ "$status" -eq 0 ] && echo "$expected"
+exit "$status"

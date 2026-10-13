@@ -1,0 +1,224 @@
+# The images carry zip compiled but switched off: bin/zip needs it.
+default:
+  before_script:
+    - docker-php-ext-enable zip
+
+stages:
+  - test
+  - build
+  - check
+  - deploy
+
+lint:
+  stage: test
+  image: stayallive/php:8.5
+  tags:
+    - docker
+  script:
+    - composer install --no-interaction --no-progress
+    - composer lint:php
+    - composer analyse
+
+# The translations follow the code: every string in the template, translated
+# in each catalog and compiled into its .l10n.php.
+i18n:
+  stage: test
+  image: stayallive/php:8.5
+  tags:
+    - docker
+  variables:
+    # The image runs as root, which WP-CLI refuses without it.
+    WP_CLI_ALLOW_ROOT: "1"
+  script:
+    # WP-CLI reads the whole plugin in memory, past the 128M of the image.
+    - echo 'memory_limit = 512M' > /usr/local/etc/php/conf.d/memory.ini
+    - curl -sSLo /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+    - chmod +x /usr/local/bin/wp
+    - bin/i18n --check
+
+# The oldest PHP the plugin supports: PHPCompatibility reads the code, this
+# job has the parser of that version run it.
+syntax:php8.2:
+  stage: test
+  image: stayallive/php:8.2
+  tags:
+    - docker
+  script:
+    - find . -name '*.php' -not -path './vendor/*' -not -path './tests/*' -print0 | xargs -0 -n1 php -l
+
+# The tests run in a WordPress the suite installs, on SQLite. Pest 4 needs
+# PHP 8.3, so 8.2 is left to PHPStan and to the syntax job.
+test:
+  stage: test
+  image: stayallive/php:$PHP_VERSION
+  parallel:
+    matrix:
+      - PHP_VERSION: ["8.3", "8.4", "8.5"]
+  tags:
+    - docker
+  script:
+    - composer install --no-interaction --no-progress
+    - composer test
+    - composer test:multisite
+
+
+# The plugin as it ships on WordPress.org: what .distignore leaves, the
+# dependencies without the dev ones.
+package:
+  stage: build
+  image: stayallive/php:8.5
+  tags:
+    - docker
+  script:
+    - bin/check-version
+    - composer install --no-dev --no-interaction --no-progress --optimize-autoloader
+    - bin/package build/gecka-security
+  artifacts:
+    name: "gecka-security_${CI_COMMIT_REF_NAME}"
+    paths:
+      - build/gecka-security
+
+# The package of the package job, at the root of the artifact, with the tag
+# as version in composer.json, which a satis artifact repository requires.
+# Do not rename: the Composer repository fetches the artifact of this job by its name.
+composer:
+  stage: check
+  image: stayallive/php:8.5
+  tags:
+    - docker
+  needs:
+    - package
+  script:
+    - find . -mindepth 1 -maxdepth 1 ! -name build -exec rm -rf {} +
+    - cp -a build/gecka-security/. .
+    - rm -rf build
+    - >
+      php -r '
+      $var = json_decode( file_get_contents( "composer.json" ) );
+      $var->version = getenv("CI_COMMIT_REF_NAME");
+      file_put_contents( "composer.json", json_encode($var, JSON_PRETTY_PRINT ^ JSON_UNESCAPED_SLASHES) );'
+  artifacts:
+    name: "wp-plugin-gecka-security_${CI_COMMIT_REF_NAME}"
+    paths:
+      - "*"
+
+# The package, through the checks the plugin directory of WordPress.org runs
+# on a submission. Any error or warning fails the job. Plugin Check wants the
+# text domain to match the folder: the package is installed as
+# gecka-security.
+plugin-check:
+  stage: check
+  image: stayallive/php:8.5
+  tags:
+    - docker
+  needs:
+    - package
+  variables:
+    GIT_STRATEGY: none
+    WP: /tmp/wordpress
+  script:
+    # WP-CLI unpacks WordPress in memory, past the 128M of the image.
+    - echo 'memory_limit = 512M' > /usr/local/etc/php/conf.d/memory.ini
+    - curl -sSLo /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+    - chmod +x /usr/local/bin/wp
+    - wp core download --path="$WP" --allow-root --quiet
+    - curl -sSLo /tmp/sqlite.zip https://downloads.wordpress.org/plugin/sqlite-database-integration.latest-stable.zip
+    - unzip -q /tmp/sqlite.zip -d "$WP/wp-content/plugins"
+    - sed "s#{SQLITE_IMPLEMENTATION_FOLDER_PATH}#$WP/wp-content/plugins/sqlite-database-integration#; s#{SQLITE_PLUGIN}#sqlite-database-integration/load.php#" "$WP/wp-content/plugins/sqlite-database-integration/db.copy" > "$WP/wp-content/db.php"
+    - wp config create --path="$WP" --dbname=wp --dbuser=wp --dbpass=wp --skip-check --allow-root
+    - wp core install --path="$WP" --url=https://example.org --title=Check --admin_user=admin --admin_email=admin@example.org --skip-email --allow-root
+    - wp plugin install plugin-check --activate --path="$WP" --allow-root
+    - cp -r build/gecka-security "$WP/wp-content/plugins/"
+    # Into a file first: a pipe would hand on the status of the last command, and a crash of WP-CLI would pass.
+    - wp plugin check gecka-security --path="$WP" --format=csv --allow-root > report.csv
+    - cat report.csv
+    - test -s report.csv
+    - if grep -qE ',(ERROR|WARNING),' report.csv; then exit 1; fi
+
+# On a release tag (vX.Y.Z): the zip of the plugin, gecka-security-X.Y.Z.zip,
+# in the generic package registry of the project, and the GitLab release of
+# the tag, titled after the message of the tag, with the changelog entry of
+# readme.txt and a link to the zip. Through the API and the job token, so
+# that it needs neither release-cli nor glab.
+release:
+  stage: deploy
+  image: stayallive/php:8.5
+  tags:
+    - docker
+  # Once the checks passed: needs starts a job as soon as the jobs it names
+  # end, whatever the stages.
+  needs:
+    - package
+    - plugin-check
+    - i18n
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/
+  script:
+    - VERSION=$(bin/check-version "$CI_COMMIT_TAG")
+    - bin/changelog "$VERSION" > notes.md
+    - export ZIP="gecka-security-$VERSION.zip"
+    - bin/zip build/gecka-security "$ZIP"
+    - export URL="$CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/generic/gecka-security/$VERSION/$ZIP"
+    - 'curl --fail-with-body -sS -H "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file "$ZIP" "$URL"'
+    - export TITLE=$(git tag -l --format='%(contents:subject)' "$CI_COMMIT_TAG")
+    - >
+      php -r 'echo json_encode([
+        "tag_name" => getenv("CI_COMMIT_TAG"),
+        "name" => getenv("TITLE") ?: getenv("CI_COMMIT_TAG"),
+        "description" => file_get_contents("notes.md"),
+        "assets" => ["links" => [["name" => getenv("ZIP"), "url" => getenv("URL"), "link_type" => "package"]]],
+      ]);' > release.json
+    - 'curl --fail-with-body -sS -H "JOB-TOKEN: $CI_JOB_TOKEN" -H "Content-Type: application/json" --data @release.json "$CI_API_V4_URL/projects/$CI_PROJECT_ID/releases"'
+  artifacts:
+    name: "gecka-security-${CI_COMMIT_TAG}"
+    paths:
+      - gecka-security-*.zip
+
+# Publishes a release on WordPress.org: started by hand, on the tag of the
+# release (vX.Y.Z). GitHub can publish the same way; whichever runs second
+# finds the version already on WordPress.org and stops. SVN_USERNAME, the
+# WordPress.org account, and SVN_PASSWORD, its SVN password (Account &
+# Security on WordPress.org), are masked and protected variables of the
+# project, so the release tags have to be protected.
+wordpress.org:
+  stage: deploy
+  image: stayallive/php:8.5
+  tags:
+    - docker
+  # Once the checks passed: needs starts a job as soon as the jobs it names
+  # end, whatever the stages.
+  needs:
+    - package
+    - plugin-check
+    - i18n
+  resource_group: wordpress-org
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v\d+\.\d+\.\d+$/
+      when: manual
+  variables:
+    SVN_URL: https://plugins.svn.wordpress.org/gecka-security
+    SVN_DIR: /tmp/svn
+  script:
+    - VERSION=$(bin/check-version "$CI_COMMIT_TAG")
+    - status=$(curl -s -o /dev/null -w '%{http_code}' "$SVN_URL/tags/$VERSION/")
+    - |
+      if [ "$status" != 404 ]; then
+        echo "tags/$VERSION answers $status on WordPress.org: already published, or SVN unreachable" >&2
+        exit 1
+      fi
+    - svn checkout --quiet --depth immediates "$SVN_URL" "$SVN_DIR"
+    - svn update --quiet --set-depth infinity "$SVN_DIR/trunk" "$SVN_DIR/assets"
+    - rsync -a --delete build/gecka-security/ "$SVN_DIR/trunk/"
+    # Banners, icons and screenshots of the page of the plugin.
+    - if [ -d .wordpress-org ]; then rsync -a --delete .wordpress-org/ "$SVN_DIR/assets/"; fi
+    - cd "$SVN_DIR"
+    - svn add --force --quiet trunk assets
+    - svn status | awk '/^!/ { print $2 }' | xargs -r svn rm --quiet
+    # Without their type, WordPress.org serves the images as downloads.
+    - find assets -name '*.png' -exec svn propset --quiet svn:mime-type image/png {} +
+    - find assets \( -name '*.jpg' -o -name '*.jpeg' \) -exec svn propset --quiet svn:mime-type image/jpeg {} +
+    - find assets -name '*.gif' -exec svn propset --quiet svn:mime-type image/gif {} +
+    - find assets -name '*.svg' -exec svn propset --quiet svn:mime-type image/svg+xml {} +
+    - svn cp --quiet trunk "tags/$VERSION"
+    - svn status
+    - svn commit -m "Version $VERSION" --non-interactive --no-auth-cache --username "$SVN_USERNAME" --password "$SVN_PASSWORD"

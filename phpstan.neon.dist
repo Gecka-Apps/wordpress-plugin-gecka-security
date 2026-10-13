@@ -1,0 +1,30 @@
+includes:
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon
+
+parameters:
+    level: max
+    phpVersion:
+        min: 80200
+        max: 80500
+    paths:
+        - bootstrap.php
+        - uninstall.php
+        - inc
+
+    scanFiles:
+        - tests/stubs/wp-cli.php
+        - tests/stubs/gecka-geolocation.php
+
+    ignoreErrors:
+        # wpdb::prepare() returns null only for a call that does not match its
+        # placeholders, which WordPress reports as doing it wrong.
+        -
+            identifier: argument.type
+            message: '#^Parameter \#1 \$query of method wpdb::query\(\) expects string, string\|null given\.$#'
+        # The WHERE clause of the journal is built from placeholders only, one
+        # per value passed alongside.
+        -
+            identifier: argument.type
+            message: '#^Parameter \#1 \$query of method wpdb::prepare\(\) expects literal-string, non-falsy-string given\.$#'
+            path: inc/core/Events.php
+            count: 3

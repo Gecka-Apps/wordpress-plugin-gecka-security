@@ -1,0 +1,40 @@
+{
+    "preset": "per",
+    "exclude": [
+        ".tests",
+        "languages",
+        "node_modules",
+        "vendor"
+    ],
+    "rules": {
+        "array_syntax": {
+            "syntax": "short"
+        },
+        "yoda_style": {
+            "equal": false,
+            "identical": false,
+            "less_and_greater": false
+        },
+        "binary_operator_spaces": {
+            "default": "single_space"
+        },
+        "no_extra_blank_lines": {
+            "tokens": [
+                "curly_brace_block",
+                "extra",
+                "parenthesis_brace_block",
+                "square_brace_block",
+                "throw",
+                "use"
+            ]
+        },
+        "no_spaces_around_offset": {
+            "positions": [
+                "inside",
+                "outside"
+            ]
+        },
+        "trim_array_spaces": true,
+        "whitespace_after_comma_in_array": true
+    }
+}

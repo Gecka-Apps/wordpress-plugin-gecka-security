@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+#
+# Prints the changelog entry of a version, from the Changelog section of
+# readme.txt, as Markdown list items. Fails when the version has no entry.
+#
+# Usage: bin/changelog <version>
+
+set -euo pipefail
+
+source=$(cd "$(dirname "$0")/.." && pwd)
+version=${1:?Usage: bin/changelog <version>}
+version=${version#v}
+
+entry=$(awk -v version="$version" '
+    /^== Changelog ==/ { changelog = 1; next }
+    changelog && /^== / { exit }
+    changelog && /^= / { inside = ($0 == "= " version " ="); next }
+    inside && /^\* / { sub(/^\* /, "- "); print }
+' "$source/readme.txt")
+
+[ -n "$entry" ] || { echo "No changelog entry for $version in readme.txt" >&2; exit 1; }
+echo "$entry"

@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+#
+# Builds an installable zip of the plugin into builds/ of the plugin (or the
+# directory given as first argument): the package bin/package makes, the
+# dependencies installed from Packagist at the versions composer.lock pins.
+# The zip is named after the version of the plugin and the commit.
+#
+# The work happens in build/ of the plugin, ignored by git, so that every
+# path the build touches stays inside the tree of the plugin.
+#
+# Usage: bin/build [dir]
+
+set -euo pipefail
+
+source=$(cd "$(dirname "$0")/.." && pwd)
+out=${1:-$source/builds}
+version=$("$source/bin/check-version")
+commit=$(git -C "$source" rev-parse --short HEAD 2>/dev/null || echo dev)
+
+mkdir -p "$source/build" "$out"
+work=$(mktemp -d "$source/build/work.XXXXXX")
+trap 'rm -rf "${work:?}"' EXIT
+
+copy="$work/gecka-security"
+mkdir -p "$copy"
+
+# Files git would commit, untracked ones included, minus the ignored ones
+# and those deleted from the working tree.
+git -C "$source" ls-files -z --cached --others --exclude-standard \
+    | while IFS= read -r -d '' file; do [ -e "$source/$file" ] && printf '%s\0' "$file"; done \
+    | rsync -a --from0 --files-from=- "$source/" "$copy/"
+
+(
+    cd "$copy"
+    composer install --no-dev --no-interaction --no-progress --optimize-autoloader --quiet
+)
+
+"$copy/bin/package" "$work/dist/gecka-security"
+
+zip="$out/gecka-security-$version-$commit.zip"
+php "$copy/bin/zip" "$work/dist/gecka-security" "$zip"
+
+echo "$zip"

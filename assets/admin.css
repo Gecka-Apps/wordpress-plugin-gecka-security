@@ -1,0 +1,412 @@
+/*
+ * SPDX-FileCopyrightText: 2026 Gecka <contact@gecka.nc>
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ *
+ * What the tabs of the plugin draw inside the pages of the shared menu: the
+ * tiles, the chart, the tables and the journal. The band, the tabs, the
+ * toggles and the buttons come from gecka/wp-admin-menu. No colour is
+ * written here: the accent is the primary colour of the admin colour scheme,
+ * the neutral tones are mixed from the colour of the text.
+ */
+.gecka-admin-page,
+#gecka_security {
+    --gecka-security-lockouts: var(--wp-admin-theme-color);
+    --gecka-security-failures: rgba(var(--wp-admin-theme-color--rgb), 0.35);
+    --gecka-security-grid: color-mix(in srgb, currentColor 15%, transparent);
+    --gecka-security-muted: color-mix(in srgb, currentColor 75%, transparent);
+    --gecka-security-stripe: color-mix(in srgb, currentColor 4%, Canvas);
+}
+
+.gecka-security-periods {
+    margin: 16px 0;
+}
+
+.gecka-security-tiles {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    max-width: 100%;
+}
+
+.gecka-security-tile.card {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 0;
+    max-width: none;
+    min-width: 0;
+    padding: 12px 16px;
+}
+
+.gecka-security-tile-value {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.gecka-security-tile-label {
+    color: var(--gecka-security-muted);
+}
+
+.gecka-security-legend {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 8px;
+}
+
+.gecka-security-swatch {
+    border-radius: 2px;
+    display: inline-block;
+    height: 12px;
+    margin-inline-end: 6px;
+    vertical-align: -1px;
+    width: 12px;
+}
+
+.gecka-security-swatch.is-failures {
+    background: var(--gecka-security-failures);
+}
+
+.gecka-security-swatch.is-lockouts {
+    background: var(--gecka-security-lockouts);
+}
+
+.gecka-security-chart-frame.card {
+    margin: 0;
+    max-width: none;
+    min-width: 0;
+    padding: 12px 12px 4px 4px;
+}
+
+.gecka-security-chart {
+    display: block;
+    height: auto;
+    max-width: 100%;
+    width: 100%;
+}
+
+.gecka-security-chart .grid {
+    stroke: var(--gecka-security-grid);
+    stroke-width: 1;
+}
+
+.gecka-security-chart .axis {
+    fill: var(--gecka-security-muted);
+    font-size: 11px;
+}
+
+.gecka-security-chart .failures {
+    fill: var(--gecka-security-failures);
+}
+
+.gecka-security-chart .lockouts {
+    fill: var(--gecka-security-lockouts);
+}
+
+.gecka-security-chart .hit {
+    fill: transparent;
+}
+
+.gecka-security-chart .bar:hover .hit {
+    fill: color-mix(in srgb, currentColor 5%, transparent);
+}
+
+/* A wide table scrolls sideways rather than widening the page. */
+.gecka-security-scroll {
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.gecka-security-table thead th {
+    vertical-align: bottom;
+}
+
+.gecka-security-table tbody th,
+.gecka-security-table td {
+    white-space: nowrap;
+}
+
+.gecka-security-table .num {
+    font-variant-numeric: tabular-nums;
+    text-align: end;
+}
+
+/* Buttons in a row, as WordPress lays them out: inline blocks parted by white space. */
+.gecka-security-widget-total {
+    font-size: 14px;
+}
+
+/* The key of the charts by way in, after the table of the totals. */
+.gecka-security-scroll + .gecka-security-legend {
+    margin-top: 16px;
+}
+
+.gecka-security-way {
+    margin: 24px 0 8px;
+}
+
+.gecka-security-figures {
+    margin: 12px 0 0;
+}
+
+.gecka-security-figures summary {
+    cursor: pointer;
+    margin-bottom: 8px;
+}
+
+.gecka-security-figures .gecka-security-table {
+    max-width: 480px;
+}
+
+.gecka-security-events .column-date,
+.gecka-security-events .column-type,
+.gecka-security-events .column-vector {
+    width: 12em;
+}
+
+.gecka-security-events .column-ip {
+    width: 16em;
+}
+
+.gecka-security-events .column-detail {
+    overflow-wrap: anywhere;
+}
+
+.gecka-security-lockouts .column-until,
+.gecka-security-lockouts .column-lockouts {
+    width: 14em;
+}
+
+/* The kind of an event, a pill; a lockout stands out. */
+/* Times an event repeated, next to its pill. */
+.gecka-security-hits {
+    color: var(--gecka-security-muted);
+    white-space: nowrap;
+}
+
+.gecka-security-event {
+    border-radius: 2px;
+    display: inline-block;
+    font-size: 12px;
+    line-height: 1.8;
+    padding: 0 6px;
+    white-space: nowrap;
+}
+
+.gecka-security-event.is-failed,
+.gecka-security-event.is-reserved,
+.gecka-security-event.is-enumeration {
+    background: color-mix(in srgb, currentColor 10%, transparent);
+}
+
+.gecka-security-event.is-lockout,
+.gecka-security-event.is-blocked,
+.gecka-security-event.is-refused {
+    background: rgba(var(--wp-admin-theme-color--rgb), 0.15);
+}
+
+/*
+ * Where the events came from: one card per facet, each row with its share
+ * drawn behind it as a bar.
+ */
+.gecka-security-origins {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.gecka-security-origin-panel.card {
+    margin: 0;
+    max-width: none;
+    min-width: 0;
+    padding: 12px 16px;
+}
+
+.gecka-security-origin-panel h3 {
+    margin: 0 0 8px;
+}
+
+.gecka-security-origin-list {
+    list-style: none;
+    margin: 0;
+    max-height: 420px;
+    overflow-y: auto;
+    padding: 0;
+}
+
+.gecka-security-origin-list li {
+    align-items: center;
+    background: linear-gradient(to right, rgba(var(--wp-admin-theme-color--rgb), 0.1) var(--gecka-security-share), transparent var(--gecka-security-share));
+    border-radius: 4px;
+    display: flex;
+    gap: 8px;
+    margin: 0 0 4px;
+    min-height: 30px;
+    padding: 2px 8px;
+}
+
+.rtl .gecka-security-origin-list li {
+    background: linear-gradient(to left, rgba(var(--wp-admin-theme-color--rgb), 0.1) var(--gecka-security-share), transparent var(--gecka-security-share));
+}
+
+.gecka-security-origin-icon {
+    border-radius: 50%;
+    color: var(--gecka-security-muted);
+    flex: none;
+    height: 18px;
+    object-fit: contain;
+    width: 18px;
+}
+
+.gecka-security-origin-icon.dashicons {
+    font-size: 18px;
+}
+
+/* A logo is a favicon: square corners, a light plate under a transparent one. */
+.gecka-security-origin-icon.is-network {
+    background: #fff;
+    border-radius: 3px;
+}
+
+.gecka-security-origin-label {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.gecka-security-origin-asn,
+.gecka-security-origin-share,
+.gecka-security-origin {
+    color: var(--gecka-security-muted);
+}
+
+.gecka-security-origin-list .num {
+    font-variant-numeric: tabular-nums;
+    min-width: 3em;
+    text-align: end;
+}
+
+.gecka-security-origin img {
+    vertical-align: -1px;
+}
+
+.gecka-security-credit {
+    margin-top: 8px;
+}
+
+@media screen and (max-width: 782px) {
+    /* The chart keeps a width its labels stay readable at, and scrolls sideways. */
+    .gecka-security-chart-frame {
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+    .gecka-security-chart {
+        min-width: 720px;
+    }
+
+    .gecka-security-chart .axis {
+        font-size: 16px;
+    }
+
+    /* The way in stays in view while the figures scroll. */
+    .gecka-security-table tbody th,
+    .gecka-security-table thead th:first-child {
+        background: Canvas;
+        box-shadow: inset -1px 0 var(--gecka-security-grid);
+        inset-inline-start: 0;
+        min-width: 9em;
+        position: sticky;
+        white-space: normal;
+        z-index: 1;
+    }
+
+    .rtl .gecka-security-table tbody th,
+    .rtl .gecka-security-table thead th:first-child {
+        box-shadow: inset 1px 0 var(--gecka-security-grid);
+    }
+
+    .gecka-security-table.striped > tbody > :nth-child(odd) > th {
+        background: var(--gecka-security-stripe);
+    }
+}
+
+/*
+ * A list of tags in place of a textarea: the box looks like an input of
+ * WordPress, the tags like the pills of the journal.
+ */
+.gecka-security-tags {
+    align-items: center;
+    background: Canvas;
+    border: 1px solid color-mix(in srgb, currentColor 45%, transparent);
+    border-radius: 4px;
+    box-shadow: 0 0 0 transparent;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    max-width: 100%;
+    min-height: 30px;
+    padding: 3px 4px;
+}
+
+.gecka-security-tags:focus-within {
+    border-color: var(--wp-admin-theme-color);
+    box-shadow: 0 0 0 1px var(--wp-admin-theme-color);
+    outline: 2px solid transparent;
+}
+
+.gecka-security-tags.is-disabled {
+    background: color-mix(in srgb, currentColor 4%, Canvas);
+    border-color: color-mix(in srgb, currentColor 20%, transparent);
+    color: color-mix(in srgb, currentColor 65%, transparent);
+    padding-inline: 4px;
+}
+
+.gecka-security-tags.is-disabled .gecka-security-tag {
+    background: color-mix(in srgb, currentColor 10%, transparent);
+    padding-inline-end: 6px;
+}
+
+.gecka-security-tags-list {
+    display: contents;
+}
+
+.gecka-security-tag {
+    background: rgba(var(--wp-admin-theme-color--rgb), 0.12);
+    border-radius: 2px;
+    display: inline-flex;
+    font-family: Consolas, Monaco, monospace;
+    font-size: 12px;
+    line-height: 1.8;
+    padding-inline-start: 6px;
+    white-space: nowrap;
+}
+
+.gecka-security-tag-remove {
+    background: none;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    padding: 0 6px;
+}
+
+.gecka-security-tag-remove:hover,
+.gecka-security-tag-remove:focus {
+    color: var(--wp-admin-theme-color);
+}
+
+.gecka-security-tags .gecka-security-tags-input,
+.gecka-security-tags .gecka-security-tags-input:focus {
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    flex: 1;
+    min-height: 0;
+    min-width: 10em;
+    outline: none;
+    padding: 0 4px;
+}

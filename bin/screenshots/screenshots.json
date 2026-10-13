@@ -1,0 +1,59 @@
+{
+    "slug": "gecka-security",
+    "title": "Gecka",
+    "requires": ["gecka-geolocation"],
+    "page": "admin.php?page=security-stats",
+    "viewport": { "width": 1280, "height": 800 },
+    "shots": [
+        {
+            "caption": "The statistics: failed logins, lockouts, refusals and successful logins over the period, with the chart of the failures and the lockouts."
+        },
+        {
+            "scroll": ".gecka-security-origins",
+            "caption": "Where the attempts come from: countries, networks and systems, with the flags and logos of Gecka Geolocation."
+        },
+        {
+            "url": "admin.php?page=security-journal",
+            "caption": "The journal: every event with its address, its origin, the login tried and the way in."
+        },
+        {
+            "url": "admin.php?page=security-lockouts",
+            "caption": "The addresses locked out right now, to release one by one or all at once."
+        },
+        {
+            "url": "index.php",
+            "clip": "#gecka_security",
+            "caption": "The dashboard widget: the last seven days at a glance."
+        },
+        {
+            "url": "options-general.php?page=gecka-security",
+            "clip": { "from": ".gecka-admin-page-body form h2:nth-of-type(1)", "until": ".gecka-admin-page-body form h2:nth-of-type(2)" },
+            "caption": "Logins: how many failures lock an address out, for how long, when a long lockout follows, and how many password resets and registrations an hour an address gets."
+        },
+        {
+            "url": "options-general.php?page=gecka-security",
+            "clip": { "from": ".gecka-admin-page-body form h2:nth-of-type(2)", "until": ".gecka-admin-page-body form h2:nth-of-type(3)" },
+            "caption": "Addresses: where the visitor address comes from behind a proxy or a CDN, the safelist, the blocklist and the countries allowed or refused."
+        },
+        {
+            "url": "options-general.php?page=gecka-security",
+            "clip": { "from": ".gecka-admin-page-body form h2:nth-of-type(3)", "until": ".gecka-admin-page-body form h2:nth-of-type(4)" },
+            "caption": "Accounts: the login names refused, passwords checked against known breaches, alerts on a new administrator, a login from a new network or every login."
+        },
+        {
+            "url": "options-general.php?page=gecka-security",
+            "clip": { "from": ".gecka-admin-page-body form h2:nth-of-type(4)", "until": ".gecka-admin-page-body form h2:nth-of-type(5)" },
+            "caption": "Account enumeration: author archives, the REST users route, oEmbed and sitemaps, login error messages."
+        },
+        {
+            "url": "options-general.php?page=gecka-security",
+            "clip": { "from": ".gecka-admin-page-body form h2:nth-of-type(5)", "until": ".gecka-admin-page-body form h2:nth-of-type(6)" },
+            "caption": "Exposed surface: XML-RPC, pingbacks and trackbacks, security headers and HSTS, the file editor of the admin."
+        },
+        {
+            "url": "options-general.php?page=gecka-security",
+            "clip": { "from": ".gecka-admin-page-body form h2:nth-of-type(6)", "until": "p.submit" },
+            "caption": "Journal and statistics: which logins and account changes are recorded, and for how long the journal and the statistics are kept."
+        }
+    ]
+}
