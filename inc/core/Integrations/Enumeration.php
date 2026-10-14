@@ -31,6 +31,12 @@ class Enumeration extends Integration
     public const LOST_PASSWORD_CODES = ['invalidcombo', 'invalid_email'];
 
     /**
+     * How long the refusals of an address or an account on one way in fold
+     * into the row of the first, in seconds.
+     */
+    private const SCAN_FOLD = HOUR_IN_SECONDS;
+
+    /**
      * Always available: it needs nothing beyond WordPress.
      *
      * @return bool
@@ -123,6 +129,29 @@ class Enumeration extends Integration
     }
 
     /**
+     * Records a refusal, folded into the row of the first one the same
+     * address, or the same account, got on the same way in within the hour:
+     * a scan of ?author=1 to ?author=500 is one row of 500 hits, which keeps
+     * the first target asked.
+     *
+     * @param string $detail The target asked: a slug, an id or a route.
+     * @param string $way    The way in, author or rest_users.
+     *
+     * @return void
+     */
+    private function scanned(string $detail, string $way): void
+    {
+        $ip = $this->plugin->clientIp()->get();
+        $login = self::login();
+
+        if (! $this->plugin->events()->bumpScan(Events::ENUMERATION, $ip, $login, $way, self::SCAN_FOLD)) {
+            $this->plugin->events()->record(Events::ENUMERATION, $ip, $login, $way, $detail);
+        }
+
+        $this->counted(Events::ENUMERATION, $ip, $login, $way, $detail);
+    }
+
+    /**
      * Answers the archive of an author with a 404 to a visitor, whether it
      * was asked by slug or by ?author=N. The journal names the account of a
      * visitor logged in.
@@ -137,7 +166,7 @@ class Enumeration extends Integration
             return;
         }
 
-        $this->record(Events::ENUMERATION, self::login(), Value::string(get_query_var('author_name')) ?: Value::string(get_query_var('author')), 'author');
+        $this->scanned(Value::string(get_query_var('author_name')) ?: Value::string(get_query_var('author')), 'author');
 
         if ($wp_query instanceof \WP_Query) {
             $wp_query->set_404();
@@ -192,7 +221,7 @@ class Enumeration extends Integration
             return $result;
         }
 
-        $this->record(Events::ENUMERATION, self::login(), $request->get_route(), 'rest_users');
+        $this->scanned($request->get_route(), 'rest_users');
 
         return new \WP_Error('rest_forbidden', __('Sorry, you are not allowed to list users.', 'gecka-security'), ['status' => rest_authorization_required_code()]);
     }

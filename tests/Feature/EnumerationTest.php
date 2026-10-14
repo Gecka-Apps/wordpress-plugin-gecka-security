@@ -52,6 +52,42 @@ it('answers the archive of an author with a 404 to a subscriber', function () {
         ->and(apply_filters('redirect_canonical', home_url('/author/writer/'), home_url('/?author=' . $this->author)))->toBeFalse();
 });
 
+it('folds a scan within the hour into one row per address, account and way in', function () {
+    $enumeration = new Enumeration(gecka_security());
+    $enumeration->setup();
+    $events = gecka_security()->events();
+    $before = gecka_security()->stats()->totals(1)['author'][Events::ENUMERATION] ?? 0;
+
+    $scan = function () use ($enumeration) {
+        foreach ([$this->author, 998, 999] as $id) {
+            $GLOBALS['wp_query'] = new WP_Query(['author' => $id]);
+            $enumeration->authorArchive();
+        }
+    };
+
+    $scan();
+    wp_set_current_user($this->subscriber);
+    $scan();
+    wp_set_current_user(0);
+    rest_do_request(new WP_REST_Request('GET', '/wp/v2/users'));
+    remove_filter('rest_pre_dispatch', [$enumeration, 'restUsers'], Enumeration::PRIORITY);
+
+    $rows = array_reverse($events->entries(1, 10));
+
+    expect($rows)->toHaveCount(3)
+        ->and([$rows[0]->way, $rows[0]->username, (int) $rows[0]->hits, $rows[0]->detail])->toBe(['author', '', 3, (string) $this->author])
+        ->and([$rows[1]->way, $rows[1]->username, (int) $rows[1]->hits])->toBe(['author', 'member', 3])
+        ->and([$rows[2]->way, (int) $rows[2]->hits])->toBe(['rest_users', 1])
+        ->and(gecka_security()->stats()->totals(1)['author'][Events::ENUMERATION] - $before)->toBe(6);
+
+    // An hour later, the same scan starts a row of its own.
+    global $wpdb;
+    $wpdb->query($wpdb->prepare('UPDATE %i SET created = %s', Events::table(), gmdate('Y-m-d H:i:s', time() - HOUR_IN_SECONDS - 60)));
+    $scan();
+
+    expect($events->entries(1, 10))->toHaveCount(4);
+});
+
 it('leaves a subscriber its own archive', function () {
     wp_set_current_user($this->subscriber);
 

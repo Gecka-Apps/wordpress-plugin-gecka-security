@@ -292,6 +292,11 @@ another out.
   the time of the last, matched on the key the address is watched under (the
   /64 for IPv6, column `net`, indexed with the kind) while the row keeps the
   address of the first refusal.
+- **Enumeration**: the refusals of the author archives or of the users
+  routes fold into one counted row per key of the address, account and way
+  in within the hour, whatever the target asked (`Events::bumpScan()`): a
+  scan of `?author=1` to `?author=500` is one row, which keeps the first
+  target. The statistics count every refusal.
 - **Accounts**, with `log_accounts` on (the default): `user_register`,
   `set_user_role`, `add_user_role` and `remove_user_role` (the two last held
   back until the request ends, since WordPress adds and removes roles on its

@@ -285,6 +285,39 @@ class Events
     }
 
     /**
+     * Counts one more hit on the latest event of a kind for the key of an
+     * address, a login and a way in, when that row was created within the
+     * last seconds given, whatever its detail: a scan asking one target
+     * after another folds into the row of its first target.
+     *
+     * @param string $type     Kind of event, one of the constants.
+     * @param string $ip       Address of the visitor, matched as the key it is watched under.
+     * @param string $username Login, matched in lower case.
+     * @param string $way      The way in, matched as stored.
+     * @param int    $seconds  How long ago the row may have been created.
+     *
+     * @return bool Whether a row was counted up; false calls for a new row.
+     */
+    public function bumpScan(string $type, string $ip, string $username, string $way, int $seconds): bool
+    {
+        $wpdb = Scope::db();
+
+        $since = gmdate('Y-m-d H:i:s', time() - $seconds);
+
+        // phpcs:disable WordPress.DB.DirectDatabaseQuery -- Table of the plugin.
+        $id = (int) $wpdb->get_var($wpdb->prepare('SELECT id FROM %i WHERE net = %s AND type = %s AND login = %s AND way = %s AND created >= %s ORDER BY id DESC LIMIT 1', self::table(), Network::key($ip), $type, self::loginKey($username), $way, $since));
+
+        if (! $id) {
+            return false;
+        }
+
+        $wpdb->query($wpdb->prepare('UPDATE %i SET hits = hits + 1, last = %s WHERE id = %d', self::table(), current_time('mysql', true), $id));
+        // phpcs:enable
+
+        return true;
+    }
+
+    /**
      * The detail of an event in words: a known code is worded with its
      * parameters, anything else is given as recorded. The person who made
      * an account change goes last, and can be left out, for an export that
