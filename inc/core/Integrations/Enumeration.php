@@ -113,8 +113,19 @@ class Enumeration extends Integration
     }
 
     /**
+     * Login of the current account, empty for a visitor not logged in.
+     *
+     * @return string
+     */
+    private static function login(): string
+    {
+        return is_user_logged_in() ? wp_get_current_user()->user_login : '';
+    }
+
+    /**
      * Answers the archive of an author with a 404 to a visitor, whether it
-     * was asked by slug or by ?author=N.
+     * was asked by slug or by ?author=N. The journal names the account of a
+     * visitor logged in.
      *
      * @return void
      */
@@ -126,7 +137,7 @@ class Enumeration extends Integration
             return;
         }
 
-        $this->record(Events::ENUMERATION, '', Value::string(get_query_var('author_name')) ?: Value::string(get_query_var('author')), 'author');
+        $this->record(Events::ENUMERATION, self::login(), Value::string(get_query_var('author_name')) ?: Value::string(get_query_var('author')), 'author');
 
         if ($wp_query instanceof \WP_Query) {
             $wp_query->set_404();
@@ -154,9 +165,10 @@ class Enumeration extends Integration
     }
 
     /**
-     * Refuses the users routes of the REST API to a visitor. An account
-     * keeps the routes of its own, /users/me and /users/{its id}, which
-     * the profile screen calls for the application passwords.
+     * Refuses the users routes of the REST API to a visitor, the account
+     * of one logged in named in the journal. An account keeps the routes of
+     * its own, /users/me and /users/{its id}, which the profile screen calls
+     * for the application passwords.
      *
      * @param mixed $result  Response short-circuiting the dispatch, null to let it run.
      * @param mixed $server  The REST server; unused.
@@ -180,7 +192,7 @@ class Enumeration extends Integration
             return $result;
         }
 
-        $this->record(Events::ENUMERATION, '', $request->get_route(), 'rest_users');
+        $this->record(Events::ENUMERATION, self::login(), $request->get_route(), 'rest_users');
 
         return new \WP_Error('rest_forbidden', __('Sorry, you are not allowed to list users.', 'gecka-security'), ['status' => rest_authorization_required_code()]);
     }

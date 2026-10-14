@@ -26,7 +26,8 @@ it('answers the archive of an author with a 404 to a visitor', function () {
 
     expect(is_404())->toBeTrue()
         ->and(gecka_security()->events()->countsByType())->toBe([Events::ENUMERATION => 1])
-        ->and(gecka_security()->events()->entries(1, 1)[0]->way)->toBe('author');
+        ->and(gecka_security()->events()->entries(1, 1)[0]->way)->toBe('author')
+        ->and(gecka_security()->events()->entries(1, 1)[0]->username)->toBe('');
 });
 
 it('leaves the archive of an author to a logged-in user', function () {
@@ -47,6 +48,7 @@ it('answers the archive of an author with a 404 to a subscriber', function () {
 
     expect(is_404())->toBeTrue()
         ->and(gecka_security()->events()->countsByType())->toBe([Events::ENUMERATION => 1])
+        ->and(gecka_security()->events()->entries(1, 1)[0]->username)->toBe('member')
         ->and(apply_filters('redirect_canonical', home_url('/author/writer/'), home_url('/?author=' . $this->author)))->toBeFalse();
 });
 
@@ -127,6 +129,7 @@ it('refuses the users route to a subscriber, its own routes kept', function () {
 
     expect($list)->toBe(403)
         ->and($other)->toBe(403)
+        ->and(gecka_security()->events()->entries(1, 1)[0]->username)->toBe('member')
         ->and($me)->toBe(200)
         ->and($own)->toBe(200)
         ->and($passwords)->not->toBeIn([401, 403]);

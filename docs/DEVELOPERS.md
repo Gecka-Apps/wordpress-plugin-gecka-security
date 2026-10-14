@@ -133,7 +133,9 @@ proves nothing. The accounts that can write posts keep the archives and the
 route, as the block editor lists the authors to them; the capability is the
 `gecka_security_enumeration_capability` filter. An account keeps its own
 archive and its own routes, `/wp/v2/users/me` and `/wp/v2/users/{id}`, which
-the profile screen calls for the application passwords.
+the profile screen calls for the application passwords. A refusal to a
+logged-in account carries its login in the journal: an address can only be
+watched, an account can be deleted.
 
 The messages of a failed login get one text whether the login or the
 password was wrong, on the login form, WooCommerce and XML-RPC; those of a
