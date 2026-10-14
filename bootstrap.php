@@ -7,7 +7,7 @@
  * Plugin Name: Gecka Security
  * Plugin URI: https://github.com/Gecka-Apps/wordpress-plugin-gecka-security
  * Description: Locks out addresses that fail too many logins on every way in, hides the list of accounts, refuses the logins bots try first, and keeps a journal and statistics of it all. Nothing leaves the server but the breached-password check, which can be switched off.
- * Version: 1.1.0
+ * Version: 1.1.1
  * Author: Gecka
  * Author URI: https://gecka.nc
  * License: GPL-3.0-or-later

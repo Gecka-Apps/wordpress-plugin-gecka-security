@@ -35,7 +35,7 @@ class Plugin
     /**
      * Version of the plugin.
      */
-    public const VERSION = '1.1.0';
+    public const VERSION = '1.1.1';
 
     /**
      * Main file of the plugin.

@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Gecka Security 1.1.0\n"
+"Project-Id-Version: Gecka Security 1.1.1\n"
 "Report-Msgid-Bugs-To: https://github.com/Gecka-Apps/wordpress-plugin-gecka-security/issues\n"
 "Last-Translator: Laurent Dinclaux <laurent@gecka.nc>\n"
 "Language-Team: Gecka <contact@gecka.nc>\n"
