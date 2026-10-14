@@ -29,7 +29,7 @@
     "require": {
         "php": ">=8.2",
         "composer/installers": "^2.0",
-        "gecka/wp-admin-menu": "^1.2"
+        "gecka/wp-admin-menu": "^1.2.1"
     },
     "config": {
         "allow-plugins": {
