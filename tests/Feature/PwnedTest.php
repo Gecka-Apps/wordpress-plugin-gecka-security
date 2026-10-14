@@ -29,8 +29,26 @@ function pwned_service(?int $count, int &$calls): void
     }, 10, 3);
 }
 
+beforeEach(function () {
+    security_settings(['pwned_passwords' => true]);
+    $this->pwned = new Pwned(gecka_security());
+    $this->pwned->setup();
+});
+
 afterEach(function () {
+    $pwned = $this->pwned;
+    remove_action('user_profile_update_errors', [$pwned, 'profile'], Pwned::PRIORITY);
+    remove_action('validate_password_reset', [$pwned, 'reset'], Pwned::PRIORITY);
+    remove_filter('woocommerce_registration_errors', [$pwned, 'registration'], 20);
+    remove_action('woocommerce_save_account_details_errors', [$pwned, 'account'], Pwned::PRIORITY);
+    remove_filter('wp_authenticate_user', [$pwned, 'login'], 40);
+    remove_action('wp_set_password', [$pwned, 'rehashed']);
+    remove_action('admin_notices', [$pwned, 'notice']);
+    remove_action('network_admin_notices', [$pwned, 'notice']);
+    remove_action('woocommerce_account_content', [$pwned, 'accountNotice'], Pwned::PRIORITY);
     remove_all_filters('pre_http_request');
+    security_settings(['pwned_passwords' => false]);
+    unset($GLOBALS['current_screen']);
 });
 
 it('refuses a breached password when it is set, and lets a clean one through', function () {
@@ -81,12 +99,19 @@ it('warns a user who logs in with a breached password, checked once a month and 
         ->and(gecka_security()->events()->countsByType(['type' => Events::BREACHED]))->toBe([Events::BREACHED => 1]);
 
     wp_set_current_user($user->ID);
-    ob_start();
-    (new Pwned(gecka_security()))->notice();
-    $html = ob_get_clean();
+    $notice = function (string $screen): string {
+        set_current_screen($screen);
+        ob_start();
+        (new Pwned(gecka_security()))->notice();
 
-    expect($html)->toContain('known data breaches')
-        ->toContain('profile.php');
+        return (string) ob_get_clean();
+    };
+
+    expect($notice('dashboard'))->toContain('known data breaches')
+        ->toContain('profile.php')
+        ->and($notice('profile'))->toContain('known data breaches')
+        ->and($notice('edit-post'))->toBe('')
+        ->and($notice('plugins'))->toBe('');
 
     wp_set_password('correct horse battery staple', $user->ID);
 

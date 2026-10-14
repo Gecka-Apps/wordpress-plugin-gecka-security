@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Gecka\WP\Plugin\Security\Integrations;
 
+use Gecka\WP\Plugin\Security\Admin\SettingsPage;
 use Gecka\WP\Plugin\Security\Plugin;
 use Gecka\WP\Plugin\Security\Scope;
 use Gecka\WP\Plugin\Security\Events;
@@ -255,14 +256,20 @@ class Pwned extends Integration
     }
 
     /**
-     * Warns the user logged in with a breached password, on every screen
-     * of the admin until they change it.
+     * Warns the user logged in with a breached password until they change
+     * it, on the dashboard, the profile and the screens of the plugin: the
+     * rest of the admin stays free of it.
      *
      * @return void
      */
     public function notice(): void
     {
         $user = wp_get_current_user();
+        $screen = function_exists('get_current_screen') ? get_current_screen() : null;
+
+        if (! $screen || ! (in_array($screen->base, ['dashboard', 'profile'], true) || SettingsPage::current())) {
+            return;
+        }
 
         if (! $user->exists() || ! self::breached($user)) {
             return;

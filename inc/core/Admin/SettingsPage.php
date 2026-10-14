@@ -359,6 +359,17 @@ class SettingsPage extends Base
     }
 
     /**
+     * Whether the current screen is one of the plugin: statistics, journal,
+     * lockouts or settings.
+     *
+     * @return bool
+     */
+    public static function current(): bool
+    {
+        return in_array(Menus::current()?->slug(), [...array_values(self::PAGES), self::PAGE], true);
+    }
+
+    /**
      * Url of a screen of the plugin
      *
      * @param string               $screen stats, events, lockouts or settings.

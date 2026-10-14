@@ -83,6 +83,7 @@ it('warns when anyone can register with a role above subscriber', function () {
 });
 
 it('tells whether the breach service answers', function () {
+    security_settings(['pwned_passwords' => true]);
     add_filter('pre_http_request', static fn() => ['response' => ['code' => 200], 'body' => "ABC:1\r\n"]);
 
     expect($this->health->testPwned()['status'])->toBe('good');
@@ -96,9 +97,8 @@ it('tells whether the breach service answers', function () {
     security_settings(['pwned_passwords' => false]);
 
     expect($this->health->testPwned()['status'])->toBe('recommended')
-        ->and($this->health->testPwned()['label'])->toContain('not checked');
-
-    security_settings(['pwned_passwords' => true]);
+        ->and($this->health->testPwned()['label'])->toContain('not checked')
+        ->and($this->health->testPwned()['actions'])->toContain('page=gecka-security');
 });
 
 it('flags the admin not forced over HTTPS on a site that has it', function () {

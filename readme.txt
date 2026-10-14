@@ -40,7 +40,7 @@ Knowing the account names leaves an attacker only the passwords to guess. WordPr
 
 = Breached passwords =
 
-Passwords found in known data breaches are refused when they are set or changed, and users who still log in with one are asked to change it. The check uses the Have I Been Pwned range API with k-anonymity: only the first five characters of a hash leave the server. It can be disabled.
+Passwords found in known data breaches are refused when they are set or changed, and users who still log in with one are asked to change it. The check uses the Have I Been Pwned range API with k-anonymity: only the first five characters of a hash leave the server. It is off until an administrator switches it on.
 
 = Blocklist and countries =
 
@@ -84,7 +84,7 @@ No cookie is set. Visitor IP addresses are stored in the journal and purged afte
 
 = External services =
 
-The breached-password check asks the Pwned Passwords API of Have I Been Pwned (https://haveibeenpwned.com/API/v3#PwnedPasswords), from the server, when a password is set or changed and, once a month per account at most, when a login succeeds with it, while the `pwned_passwords` setting is on. The request carries the first five characters of the SHA-1 hash of the password, with the padding the service offers, and nothing else: neither the password, nor the login, nor the address of the visitor. Site Health asks the service the same way to tell whether it answers. Terms of use: https://haveibeenpwned.com/API/v3#License, privacy policy: https://haveibeenpwned.com/Privacy.
+The breached-password check asks the Pwned Passwords API of Have I Been Pwned (https://haveibeenpwned.com/API/v3#PwnedPasswords), from the server, when a password is set or changed and, once a month per account at most, when a login succeeds with it, while the `pwned_passwords` setting is on. That setting is off by default: nothing is sent before an administrator switches it on. The request carries the first five characters of the SHA-1 hash of the password, with the padding the service offers, and nothing else: neither the password, nor the login, nor the address of the visitor. Site Health asks the service the same way to tell whether it answers. Terms of use: https://haveibeenpwned.com/API/v3#License, privacy policy: https://haveibeenpwned.com/Privacy.
 
 The plugin also requests the home page of the site itself, from the server, to find which security headers the web server already sends and which files it exposes.
 

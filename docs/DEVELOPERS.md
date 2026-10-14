@@ -186,7 +186,8 @@ cannot be read, or on the safelist, is never limited.
 
 ## Breached passwords
 
-`pwned_passwords`, on by default, asks the Pwned Passwords range API of Have
+`pwned_passwords`, off by default since switching it on is the consent to
+reach a third party, asks the Pwned Passwords range API of Have
 I Been Pwned: the first five characters of the SHA-1 of the password go out
 with the `Add-Padding` header, the suffixes come back, the comparison is
 made here. The user agent names the plugin and its version, nothing of the
@@ -198,8 +199,9 @@ A breached password is refused on `user_profile_update_errors`,
 the brute-force gate and only once the password proved right, a login is
 checked once a month per account, the verdict kept in the
 `gecka_security_pwned` user meta with a fingerprint of the stored hash: a
-breached one is recorded in the journal and the user sees a warning in the
-admin, or on the WooCommerce account screen, until they change it. The
+breached one is recorded in the journal and the user sees a warning on the
+dashboard, the profile and the screens of the plugin, or on the WooCommerce
+account screen, until they change it. The
 service silent, the password goes through. Site Health asks the service from
 the server, as an asynchronous test.
 

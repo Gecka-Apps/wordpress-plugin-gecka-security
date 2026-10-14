@@ -63,7 +63,8 @@ changed, and users who still log in with one are asked to change it. The
 check uses the [Have I Been Pwned](https://haveibeenpwned.com/Passwords)
 range API with k-anonymity: only the first five characters of a hash leave
 the server, never the password, the login or the visitor's address. This is
-the only external request the plugin makes, and it can be disabled.
+the only external request the plugin makes, and it is off until an
+administrator switches it on.
 
 ## 🚫 Blocklist and countries
 

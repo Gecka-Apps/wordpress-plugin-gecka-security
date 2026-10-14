@@ -116,7 +116,7 @@ class Settings
             'file_edit_disabled' => true,
             'log_logins' => true,
             'log_unknown_logins' => false,
-            'pwned_passwords' => true,
+            'pwned_passwords' => false,
             'log_accounts' => true,
             'alert_admins' => true,
             'alert_new_network' => true,
