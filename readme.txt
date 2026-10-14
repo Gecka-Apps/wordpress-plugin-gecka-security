@@ -4,7 +4,7 @@ Tags: security, brute force, login, lockout, breached passwords
 Requires at least: 6.8
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -136,6 +136,15 @@ No. Those are better handled by dedicated plugins, and Gecka Security works alon
 11. Journal and statistics: which logins and account changes are recorded, and for how long the journal and the statistics are kept.
 
 == Changelog ==
+
+= 1.1.0 =
+
+* Author archives and the REST users route closed to subscribers and customers too: only the accounts that can write posts see them, a capability the gecka_security_enumeration_capability filter changes. An account keeps its own archive and routes.
+* The journal names the account behind an enumeration refused to someone logged in.
+* A scan of the author archives or of the users route is one journal row per hour, counted, instead of one row per request.
+* Admin pages styled again on sites that install the plugin through their own Composer.
+* The breached-password check is off until an administrator switches it on, and Site Health recommends it. Sites that never saved the settings had it on by default: switch it on again under Settings > Security.
+* The breached-password warning shows on the dashboard, the profile and the screens of the plugin only.
 
 = 1.0.0 =
 
