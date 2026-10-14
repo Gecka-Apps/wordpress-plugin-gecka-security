@@ -137,7 +137,7 @@ class Help
             [
                 __('A bot that knows the logins of a site only has the passwords left to guess. WordPress gives the logins away in several places, each closed by a setting: the archive of an author, whose address holds the login and which ?author=1 redirects to; the users route of the REST API; the author of a post in its oEmbed data; and the users in the sitemap.', 'gecka-security'),
                 __('The messages of a failed login tell whether the login or the password was wrong, and those of a password reset whether the account exists: the setting gives each one message instead. The messages of a registration still say when a login or an email address is taken, as a person registering needs to know.', 'gecka-security'),
-                __('Logged-in users keep the REST route and the archives. The REST setting is off by default: some plugins read the route to show the authors of the site to visitors, and closing it gains little while the author archives still answer.', 'gecka-security'),
+                __('The accounts that can write posts keep the REST route and the archives, as the editor of WordPress lists the authors to them. Subscribers and customers are visitors here: on a site open to registration, anyone becomes one. The REST setting is off by default: some plugins read the route to show the authors of the site to visitors, and closing it gains little while the author archives still answer.', 'gecka-security'),
             ],
         );
     }

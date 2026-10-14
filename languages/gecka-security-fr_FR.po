@@ -392,10 +392,6 @@ msgstr "WordPress liste ses comptes à n’importe qui à plusieurs endroits. Un
 msgid "Author archives"
 msgstr "Archives d’auteur"
 
-#: inc/core/Admin/SettingsPage.php:689
-msgid "Answer the archive of an author with a 404 to visitors, whether asked by its address or by ?author=1, and never redirect ?author=1 to it."
-msgstr "Répondre à l’archive d’un auteur par une 404 aux visiteurs, qu’elle soit demandée par son adresse ou par ?author=1, et ne jamais rediriger ?author=1 vers elle."
-
 #: inc/core/Admin/SettingsPage.php:690
 #: inc/core/Admin/SiteHealth.php:518
 #: inc/core/Events.php:165
@@ -683,16 +679,16 @@ msgstr "Autre"
 msgid "Author archive"
 msgstr "Archive d’auteur"
 
-#: inc/core/Integrations/Enumeration.php:140
+#: inc/core/Integrations/Enumeration.php:185
 msgid "Sorry, you are not allowed to list users."
 msgstr "Désolé, vous n’avez pas l’autorisation de lister les utilisateurs."
 
-#: inc/core/Integrations/Enumeration.php:183
-#: inc/core/Integrations/Enumeration.php:298
+#: inc/core/Integrations/Enumeration.php:228
+#: inc/core/Integrations/Enumeration.php:343
 msgid "The login or the password is incorrect."
 msgstr "L’identifiant ou le mot de passe est incorrect."
 
-#: inc/core/Integrations/Enumeration.php:282
+#: inc/core/Integrations/Enumeration.php:327
 msgid "If an account matches, a message with a link to reset the password was sent to its email address."
 msgstr "Si un compte correspond, un message avec un lien de réinitialisation du mot de passe a été envoyé à son adresse e-mail."
 
@@ -741,10 +737,6 @@ msgstr "Les échecs plus anciens sont oubliés. Une connexion réussie ne les ou
 #: inc/core/Events.php:309
 msgid "lost password"
 msgstr "mot de passe perdu"
-
-#: inc/core/Admin/SettingsPage.php:690
-msgid "Refuse /wp/v2/users to visitors. Logged-in users keep it. Off by default: some plugins read it to show content, check the site after switching it on."
-msgstr "Refuser /wp/v2/users aux visiteurs. Les utilisateurs connectés la gardent. Désactivé par défaut : certaines extensions la lisent pour afficher du contenu, vérifiez le site après l’avoir activé."
 
 #: inc/core/Admin/SettingsPage.php:699
 msgid "Switch XML-RPC off"
@@ -1851,10 +1843,6 @@ msgid_plural "What the protections saw and what changed on the accounts: the log
 msgstr[0] "Ce que les protections ont vu et ce qui a changé sur les comptes : les connexions, échouées ou réussies, les adresses verrouillées et ce qu’elles ont tenté entre-temps, les adresses refusées, les requêtes limitées ou listant les comptes, les mots de passe compromis, les modifications de comptes. Conservé %s jour."
 msgstr[1] "Ce que les protections ont vu et ce qui a changé sur les comptes : les connexions, échouées ou réussies, les adresses verrouillées et ce qu’elles ont tenté entre-temps, les adresses refusées, les requêtes limitées ou listant les comptes, les mots de passe compromis, les modifications de comptes. Conservé %s jours."
 
-#: inc/core/Admin/Help.php:140
-msgid "Logged-in users keep the REST route and the archives. The REST setting is off by default: some plugins read the route to show the authors of the site to visitors, and closing it gains little while the author archives still answer."
-msgstr "Les utilisateurs connectés gardent la route REST et les archives. Le réglage REST est désactivé par défaut : certaines extensions lisent la route pour montrer les auteurs du site aux visiteurs, et la fermer apporte peu tant que les archives d’auteur répondent."
-
 #: inc/core/Admin/Help.php:154
 msgid "Bots try a handful of logins first, admin above all. No account can be registered or created with a reserved name, through the registration form, the users screen or WP-CLI alike. An account that already carries one keeps it: WordPress does not rename an account, so create another administrator and delete that one."
 msgstr "Les robots essaient une poignée d’identifiants en premier, admin avant tout. Aucun compte ne peut être inscrit ou créé avec un nom réservé, que ce soit par le formulaire d’inscription, l’écran des utilisateurs ou WP-CLI. Un compte qui en porte déjà un le garde : WordPress ne renomme pas un compte, créez donc un autre administrateur et supprimez le premier."
@@ -1915,3 +1903,15 @@ msgstr "Si c’était vous, il n’y a rien à faire. Sinon, changez votre mot d
 #, php-format
 msgid "[%s] Login to your account"
 msgstr "[%s] Connexion à votre compte"
+
+#: inc/core/Admin/Help.php:140
+msgid "The accounts that can write posts keep the REST route and the archives, as the editor of WordPress lists the authors to them. Subscribers and customers are visitors here: on a site open to registration, anyone becomes one. The REST setting is off by default: some plugins read the route to show the authors of the site to visitors, and closing it gains little while the author archives still answer."
+msgstr "Les comptes qui peuvent écrire des articles gardent la route REST et les archives, comme l’éditeur de WordPress leur liste les auteurs. Abonnés et clients sont ici des visiteurs : sur un site ouvert aux inscriptions, n’importe qui en devient un. Le réglage REST est désactivé par défaut : certaines extensions lisent la route pour montrer les auteurs du site aux visiteurs, et la fermer apporte peu tant que les archives d’auteur répondent."
+
+#: inc/core/Admin/SettingsPage.php:689
+msgid "Answer the archive of an author with a 404 to visitors, whether asked by its address or by ?author=1, and never redirect ?author=1 to it. Subscribers and customers count as visitors."
+msgstr "Répondre à l’archive d’un auteur par une 404 aux visiteurs, qu’elle soit demandée par son adresse ou par ?author=1, et ne jamais rediriger ?author=1 vers elle. Abonnés et clients comptent comme visiteurs."
+
+#: inc/core/Admin/SettingsPage.php:690
+msgid "Refuse /wp/v2/users to visitors, subscribers and customers included. Accounts that can write posts keep it. Off by default: some plugins read it to show content, check the site after switching it on."
+msgstr "Refuser /wp/v2/users aux visiteurs, abonnés et clients compris. Les comptes qui peuvent écrire des articles la gardent. Désactivé par défaut : certaines extensions la lisent pour afficher du contenu, vérifiez le site après l’avoir activé."

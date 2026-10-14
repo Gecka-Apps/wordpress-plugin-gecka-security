@@ -12,6 +12,7 @@ beforeEach(function () {
     security_settings(['rest_users' => true]);
     gecka_security()->lockouts()->clear();
     $this->author = static::factory()->user->create(['user_login' => 'writer', 'role' => 'author']);
+    $this->subscriber = static::factory()->user->create(['user_login' => 'member', 'role' => 'subscriber']);
     gecka_security()->events()->clear();
     $this->post = static::factory()->post->create_and_get(['post_author' => $this->author]);
     wp_set_current_user(0);
@@ -36,6 +37,45 @@ it('leaves the archive of an author to a logged-in user', function () {
 
     expect(is_404())->toBeFalse()
         ->and(gecka_security()->events()->count())->toBe(0);
+});
+
+it('answers the archive of an author with a 404 to a subscriber', function () {
+    wp_set_current_user($this->subscriber);
+
+    $GLOBALS['wp_query'] = new WP_Query(['author' => $this->author]);
+    (new Enumeration(gecka_security()))->authorArchive();
+
+    expect(is_404())->toBeTrue()
+        ->and(gecka_security()->events()->countsByType())->toBe([Events::ENUMERATION => 1])
+        ->and(apply_filters('redirect_canonical', home_url('/author/writer/'), home_url('/?author=' . $this->author)))->toBeFalse();
+});
+
+it('leaves a subscriber its own archive', function () {
+    wp_set_current_user($this->subscriber);
+
+    $GLOBALS['wp_query'] = new WP_Query(['author' => $this->subscriber]);
+    (new Enumeration(gecka_security()))->authorArchive();
+
+    expect(is_404())->toBeFalse()
+        ->and(gecka_security()->events()->count())->toBe(0);
+});
+
+it('lets the capability that sees the accounts be filtered', function () {
+    wp_set_current_user($this->subscriber);
+    expect(Enumeration::canList())->toBeFalse();
+
+    add_filter('gecka_security_enumeration_capability', $read = fn() => 'read');
+    $byRead = Enumeration::canList();
+    remove_filter('gecka_security_enumeration_capability', $read);
+
+    wp_set_current_user($this->author);
+    add_filter('gecka_security_enumeration_capability', $none = fn() => '');
+    $byNone = Enumeration::canList();
+    remove_filter('gecka_security_enumeration_capability', $none);
+
+    expect($byRead)->toBeTrue()
+        ->and($byNone)->toBeFalse()
+        ->and(Enumeration::canList())->toBeTrue();
 });
 
 it('does not redirect ?author=N to the archive', function () {
@@ -70,6 +110,26 @@ it('leaves the users route to a logged-in user', function () {
     expect(rest_do_request(new WP_REST_Request('GET', '/wp/v2/users'))->get_status())->toBe(200);
 
     remove_filter('rest_pre_dispatch', [$enumeration, 'restUsers'], Enumeration::PRIORITY);
+});
+
+it('refuses the users route to a subscriber, its own routes kept', function () {
+    $enumeration = new Enumeration(gecka_security());
+    $enumeration->setup();
+    wp_set_current_user($this->subscriber);
+
+    $list = rest_do_request(new WP_REST_Request('GET', '/wp/v2/users'))->get_status();
+    $other = rest_do_request(new WP_REST_Request('GET', '/wp/v2/users/' . $this->author))->get_status();
+    $me = rest_do_request(new WP_REST_Request('GET', '/wp/v2/users/me'))->get_status();
+    $own = rest_do_request(new WP_REST_Request('GET', '/wp/v2/users/' . $this->subscriber))->get_status();
+    $passwords = rest_do_request(new WP_REST_Request('GET', '/wp/v2/users/' . $this->subscriber . '/application-passwords'))->get_status();
+
+    remove_filter('rest_pre_dispatch', [$enumeration, 'restUsers'], Enumeration::PRIORITY);
+
+    expect($list)->toBe(403)
+        ->and($other)->toBe(403)
+        ->and($me)->toBe(200)
+        ->and($own)->toBe(200)
+        ->and($passwords)->not->toBeIn([401, 403]);
 });
 
 it('leaves the author out of the oEmbed data and the users out of the sitemap', function () {

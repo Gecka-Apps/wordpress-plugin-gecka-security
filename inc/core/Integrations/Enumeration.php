@@ -76,6 +76,43 @@ class Enumeration extends Integration
     }
 
     /**
+     * Whether the current account may see the others: one that can write
+     * posts, as the editor of WordPress lists the authors to it. An account
+     * registered on the site, a subscriber or a customer, is a visitor here.
+     *
+     * @return bool
+     */
+    public static function canList(): bool
+    {
+        if (! is_user_logged_in()) {
+            return false;
+        }
+
+        /**
+         * Filters the capability an account needs to see the author
+         * archives and the users routes of the REST API.
+         *
+         * @param string $capability By default edit_posts.
+         */
+        $capability = Value::string(apply_filters('gecka_security_enumeration_capability', 'edit_posts'));
+
+        return $capability !== '' && current_user_can($capability);
+    }
+
+    /**
+     * Whether an account id is that of the current account, which sees
+     * itself.
+     *
+     * @param int $id Id of the account asked for.
+     *
+     * @return bool
+     */
+    private static function own(int $id): bool
+    {
+        return $id > 0 && $id === get_current_user_id();
+    }
+
+    /**
      * Answers the archive of an author with a 404 to a visitor, whether it
      * was asked by slug or by ?author=N.
      *
@@ -85,7 +122,7 @@ class Enumeration extends Integration
     {
         global $wp_query;
 
-        if (! is_author() || is_user_logged_in()) {
+        if (! is_author() || self::canList() || self::own(get_queried_object_id())) {
             return;
         }
 
@@ -109,7 +146,7 @@ class Enumeration extends Integration
      */
     public function authorRedirect(mixed $redirect): mixed
     {
-        if (! is_user_logged_in() && (get_query_var('author') || get_query_var('author_name'))) {
+        if ((get_query_var('author') || get_query_var('author_name')) && ! self::canList() && ! self::own(get_queried_object_id())) {
             return false;
         }
 
@@ -117,7 +154,9 @@ class Enumeration extends Integration
     }
 
     /**
-     * Refuses the users routes of the REST API to a visitor.
+     * Refuses the users routes of the REST API to a visitor. An account
+     * keeps the routes of its own, /users/me and /users/{its id}, which
+     * the profile screen calls for the application passwords.
      *
      * @param mixed $result  Response short-circuiting the dispatch, null to let it run.
      * @param mixed $server  The REST server; unused.
@@ -127,11 +166,17 @@ class Enumeration extends Integration
      */
     public function restUsers(mixed $result, mixed $server, mixed $request): mixed
     {
-        if ($result !== null || is_user_logged_in() || ! $request instanceof \WP_REST_Request) {
+        if ($result !== null || self::canList() || ! $request instanceof \WP_REST_Request) {
             return $result;
         }
 
-        if (! preg_match('#^/wp/v2/users(?:/|$)#i', $request->get_route())) {
+        if (! preg_match('#^/wp/v2/users(?:/([^/]+))?(?:/|$)#i', $request->get_route(), $match)) {
+            return $result;
+        }
+
+        $id = $match[1] ?? '';
+
+        if ((strtolower($id) === 'me' && is_user_logged_in()) || (ctype_digit($id) && self::own((int) $id))) {
             return $result;
         }
 

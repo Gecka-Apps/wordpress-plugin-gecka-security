@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-13T14:19:08+11:00\n"
+"POT-Creation-Date: 2026-10-14T14:47:39+11:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: gecka-security\n"
@@ -279,7 +279,7 @@ msgid "The messages of a failed login tell whether the login or the password was
 msgstr ""
 
 #: inc/core/Admin/Help.php:140
-msgid "Logged-in users keep the REST route and the archives. The REST setting is off by default: some plugins read the route to show the authors of the site to visitors, and closing it gains little while the author archives still answer."
+msgid "The accounts that can write posts keep the REST route and the archives, as the editor of WordPress lists the authors to them. Subscribers and customers are visitors here: on a site open to registration, anyone becomes one. The REST setting is off by default: some plugins read the route to show the authors of the site to visitors, and closing it gains little while the author archives still answer."
 msgstr ""
 
 #: inc/core/Admin/Help.php:154
@@ -719,7 +719,7 @@ msgid "Author archives"
 msgstr ""
 
 #: inc/core/Admin/SettingsPage.php:689
-msgid "Answer the archive of an author with a 404 to visitors, whether asked by its address or by ?author=1, and never redirect ?author=1 to it."
+msgid "Answer the archive of an author with a 404 to visitors, whether asked by its address or by ?author=1, and never redirect ?author=1 to it. Subscribers and customers count as visitors."
 msgstr ""
 
 #: inc/core/Admin/SettingsPage.php:690
@@ -729,7 +729,7 @@ msgid "REST API users"
 msgstr ""
 
 #: inc/core/Admin/SettingsPage.php:690
-msgid "Refuse /wp/v2/users to visitors. Logged-in users keep it. Off by default: some plugins read it to show content, check the site after switching it on."
+msgid "Refuse /wp/v2/users to visitors, subscribers and customers included. Accounts that can write posts keep it. Off by default: some plugins read it to show content, check the site after switching it on."
 msgstr ""
 
 #: inc/core/Admin/SettingsPage.php:691
@@ -1675,16 +1675,16 @@ msgstr ""
 msgid "[%1$s] New administrator: %2$s"
 msgstr ""
 
-#: inc/core/Integrations/Enumeration.php:140
+#: inc/core/Integrations/Enumeration.php:185
 msgid "Sorry, you are not allowed to list users."
 msgstr ""
 
-#: inc/core/Integrations/Enumeration.php:183
-#: inc/core/Integrations/Enumeration.php:298
+#: inc/core/Integrations/Enumeration.php:228
+#: inc/core/Integrations/Enumeration.php:343
 msgid "The login or the password is incorrect."
 msgstr ""
 
-#: inc/core/Integrations/Enumeration.php:282
+#: inc/core/Integrations/Enumeration.php:327
 msgid "If an account matches, a message with a link to reset the password was sent to its email address."
 msgstr ""
 

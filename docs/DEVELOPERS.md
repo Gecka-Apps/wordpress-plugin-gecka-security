@@ -122,10 +122,18 @@ Each closed by a setting:
 
 - the archive of an author: a 404 to visitors, and `?author=1` does not
   redirect to it
-- the `/wp/v2/users` route of the REST API: a 401 to visitors, logged-in
-  users keep it; off by default, some plugins read the route to show content
+- the `/wp/v2/users` route of the REST API: a 401 to visitors; off by
+  default, some plugins read the route to show content
 - the author in the oEmbed data of a post
 - the users in the sitemap
+
+A visitor, for the first two, is anyone without `edit_posts`: on a site open
+to registration a bot becomes a subscriber in one form, so being logged in
+proves nothing. The accounts that can write posts keep the archives and the
+route, as the block editor lists the authors to them; the capability is the
+`gecka_security_enumeration_capability` filter. An account keeps its own
+archive and its own routes, `/wp/v2/users/me` and `/wp/v2/users/{id}`, which
+the profile screen calls for the application passwords.
 
 The messages of a failed login get one text whether the login or the
 password was wrong, on the login form, WooCommerce and XML-RPC; those of a
@@ -410,6 +418,7 @@ there.
 | `gecka_security_protect` | filter | Whether a protection is on: `bruteforce`, `author_archives`, `rest_users`, `oembed_author`, `sitemap_users`, `login_errors`, `xmlrpc_disabled`, `pingback_disabled`, `trackback_disabled`, `security_headers`, `hsts`, `file_edit_disabled`, `log_logins`, `log_unknown_logins`, `pwned_passwords`, `log_accounts`, `alert_admins`, `alert_new_network`, `alert_logins`, `limit_requests`. |
 | `gecka_security_watch_networks` | filter | Whether a login from a new network is mailed to the account; receives the account. By default, the accounts that manage the site or the network. |
 | `gecka_security_alert_login` | filter | Whether a login is mailed to the account, with `alert_logins` on; receives the account. True for every account by default. |
+| `gecka_security_enumeration_capability` | filter | The capability an account needs to see the author archives and the users routes of the REST API, `edit_posts` by default. |
 | `gecka_security_ignored_errors` | filter | The `WP_Error` codes a failed login is not counted for. |
 | `gecka_security_event` | action | An event was recorded: type, address, login, way in, detail (a code such as `lockout.long` or `account.role_set`, or free text), parameters of the code. |
 | `gecka_security_max_entries` | filter | Rows of each kind the journal keeps at most, 10,000. |
