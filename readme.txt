@@ -4,7 +4,7 @@ Tags: security, brute force, login, lockout, breached passwords
 Requires at least: 6.8
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 1.1.1
+Stable tag: 1.2.0
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -137,6 +137,10 @@ No. Those are better handled by dedicated plugins, and Gecka Security works alon
 11. Journal and statistics: which logins and account changes are recorded, and for how long the journal and the statistics are kept.
 
 == Changelog ==
+
+= 1.2.0 =
+
+* Last login of each account in a sortable column of the users list, that of the network admin included. Logins with an application password do not count. A setting under Journal and statistics switches it off.
 
 = 1.1.1 =
 
