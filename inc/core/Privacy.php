@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Gecka\WP\Plugin\Security;
 
+use Gecka\WP\Plugin\Security\Integrations\LastLogin;
 use Gecka\WP\Plugin\Security\Integrations\NewNetworks;
 use Gecka\WP\Plugin\Security\Integrations\Pwned;
 
@@ -14,8 +15,9 @@ use Gecka\WP\Plugin\Security\Integrations\Pwned;
  * The journal in the personal data tools of WordPress: the rows carrying
  * the login or the e-mail address of a person go out with their export,
  * and away with their erasure, together with the verdict kept on their
- * password and the networks their account logged in from. Rows are matched on the login typed, whatever its case, which
- * is what a visitor leaves behind, whether an account exists or not. The
+ * password, the date of their last login and the networks their account
+ * logged in from. Rows are matched on the login typed, whatever its case,
+ * which is what a visitor leaves behind, whether an account exists or not. The
  * address goes out with the logins the person made; an attempt on their
  * login may be someone else's, so its address stays here.
  *
@@ -84,8 +86,8 @@ class Privacy
     }
 
     /**
-     * The journal rows of a person, a page at a time, and the networks
-     * their account logged in from
+     * The journal rows of a person, a page at a time, the date of their
+     * last login and the networks their account logged in from
      *
      * @param string $email E-mail address of the person.
      * @param int    $page  Page the tool asks for, from 1.
@@ -129,8 +131,23 @@ class Privacy
 
         $user = get_user_by('email', $email);
 
-        // The networks the account logged in from go with the first page.
+        // The last login and the networks the account logged in from go
+        // with the first page.
         if ($page <= 1 && $user instanceof \WP_User) {
+            $last = LastLogin::time($user->ID);
+
+            if ($last > 0) {
+                $data[] = [
+                    'group_id' => 'gecka-security-last-login',
+                    'group_label' => __('Last login', 'gecka-security'),
+                    'group_description' => __('The date of the last login of the account, which Gecka Security keeps for the administrators of the site.', 'gecka-security'),
+                    'item_id' => 'gecka-security-last-login',
+                    'data' => [
+                        ['name' => __('Date', 'gecka-security'), 'value' => Scope::dateTime($last)],
+                    ],
+                ];
+            }
+
             foreach (NewNetworks::networks($user->ID) as $asn => $network) {
                 $data[] = [
                     'group_id' => 'gecka-security-networks',
@@ -151,8 +168,9 @@ class Privacy
 
     /**
      * Deletes the journal rows of a person, the verdict kept on the password
-     * of their account and the networks it logged in from, and takes their
-     * login out of the changes they made on other accounts.
+     * of their account, the date of its last login and the networks it
+     * logged in from, and takes their login out of the changes they made on
+     * other accounts.
      *
      * @param string $email E-mail address of the person.
      * @param int    $page  Page the tool asks for; unused, every row goes in one call.
@@ -166,7 +184,9 @@ class Privacy
         $user = get_user_by('email', $email);
 
         if ($user instanceof \WP_User) {
-            $removed += (int) delete_user_meta($user->ID, Pwned::META) + (int) delete_user_meta($user->ID, NewNetworks::META);
+            foreach ([Pwned::META, LastLogin::META, NewNetworks::META] as $meta) {
+                $removed += (int) delete_user_meta($user->ID, $meta);
+            }
         }
 
         return ['items_removed' => $removed, 'items_retained' => false, 'messages' => [], 'done' => true];

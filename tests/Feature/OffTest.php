@@ -9,6 +9,7 @@ use Gecka\WP\Plugin\Security\Scope;
 use Gecka\WP\Plugin\Security\Integrations\Editor;
 use Gecka\WP\Plugin\Security\Integrations\Enumeration;
 use Gecka\WP\Plugin\Security\Integrations\Headers;
+use Gecka\WP\Plugin\Security\Integrations\LastLogin;
 use Gecka\WP\Plugin\Security\Integrations\Login;
 use Gecka\WP\Plugin\Security\Integrations\LoginAlerts;
 use Gecka\WP\Plugin\Security\Integrations\Logins;
@@ -46,6 +47,7 @@ it('hooks nothing when switched off', function (string $class, array $keys) {
     'headers' => [Headers::class, ['security_headers', 'hsts']],
     'editor' => [Editor::class, ['file_edit_disabled']],
     'logins' => [Logins::class, ['log_logins']],
+    'last login' => [LastLogin::class, ['last_login']],
     'new networks' => [NewNetworks::class, ['alert_new_network']],
     'login alerts' => [LoginAlerts::class, ['alert_logins']],
 ]);

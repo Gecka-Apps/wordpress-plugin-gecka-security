@@ -290,6 +290,12 @@ another out.
   the name of the application password. The logins of one application
   password within the hour fold into one counted row, since every request of
   an integration authenticates.
+- **Last login**, with `last_login` on (the default): `wp_login` writes the
+  time in user meta `gecka_security_last_login` (`LastLogin::META`), shown in
+  a sortable column of the users list, that of the network admin too. The
+  sort joins the meta on its key in `pre_user_query`, so the accounts without
+  one stay in the list, last when the most recent come first. Application
+  passwords do not count.
 - **Lockouts**: the refusals of one lockout fold into one row, counted, with
   the time of the last, matched on the key the address is watched under (the
   /64 for IPv6, column `net`, indexed with the kind) while the row keeps the
@@ -386,8 +392,8 @@ plugin in its Info tab.
 
 The rows carrying the login or the email address of a person go out with the
 personal data export of WordPress and away with its erasure, together with
-the verdict kept on the password of their account and the networks it logged
-in from (`wp_privacy_personal_data_exporters`,
+the verdict kept on the password of their account, the date of its last
+login and the networks it logged in from (`wp_privacy_personal_data_exporters`,
 `wp_privacy_personal_data_erasers`). The match ignores the case of the
 login, and the address goes out only with the logins the person made, since
 an attempt on their login may be someone else's.
@@ -398,7 +404,7 @@ of the other accounts and stay, naming an erased account (`Accounts::ERASED`)
 as who made the change.
 
 A paragraph for the privacy policy is offered through
-`wp_add_privacy_policy_content()`, worded after `log_logins`,
+`wp_add_privacy_policy_content()`, worded after `log_logins`, `last_login`,
 `log_unknown_logins`, `log_accounts`, `pwned_passwords`, `alert_new_network`
 and `events_days` (`SettingsPage::PRIVACY_SETTINGS`): a save that changes
 one of them says so in its notice, with a link to the policy guide.
@@ -424,7 +430,7 @@ there.
 
 | Hook | Kind | What for |
 |---|---|---|
-| `gecka_security_protect` | filter | Whether a protection is on: `bruteforce`, `author_archives`, `rest_users`, `oembed_author`, `sitemap_users`, `login_errors`, `xmlrpc_disabled`, `pingback_disabled`, `trackback_disabled`, `security_headers`, `hsts`, `file_edit_disabled`, `log_logins`, `log_unknown_logins`, `pwned_passwords`, `log_accounts`, `alert_admins`, `alert_new_network`, `alert_logins`, `limit_requests`. |
+| `gecka_security_protect` | filter | Whether a protection is on: `bruteforce`, `author_archives`, `rest_users`, `oembed_author`, `sitemap_users`, `login_errors`, `xmlrpc_disabled`, `pingback_disabled`, `trackback_disabled`, `security_headers`, `hsts`, `file_edit_disabled`, `log_logins`, `last_login`, `log_unknown_logins`, `pwned_passwords`, `log_accounts`, `alert_admins`, `alert_new_network`, `alert_logins`, `limit_requests`. |
 | `gecka_security_watch_networks` | filter | Whether a login from a new network is mailed to the account; receives the account. By default, the accounts that manage the site or the network. |
 | `gecka_security_alert_login` | filter | Whether a login is mailed to the account, with `alert_logins` on; receives the account. True for every account by default. |
 | `gecka_security_enumeration_capability` | filter | The capability an account needs to see the author archives and the users routes of the REST API, `edit_posts` by default. |

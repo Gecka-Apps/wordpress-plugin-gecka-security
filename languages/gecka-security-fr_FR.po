@@ -18,8 +18,8 @@ msgstr ""
 #: bootstrap.php
 #: inc/core/Admin/SettingsPage.php:342
 #: inc/core/Admin/SiteHealth.php:525
-#: inc/core/Privacy.php:64
-#: inc/core/Privacy.php:80
+#: inc/core/Privacy.php:66
+#: inc/core/Privacy.php:82
 msgid "Gecka Security"
 msgstr "Gecka Security"
 
@@ -64,18 +64,19 @@ msgid "See the statistics"
 msgstr "Voir les statistiques"
 
 #: inc/core/Admin/EventsTable.php:86
-#: inc/core/Privacy.php:102
+#: inc/core/Privacy.php:104
+#: inc/core/Privacy.php:146
 msgid "Date"
 msgstr "Date"
 
 #: inc/core/Admin/EventsTable.php:87
-#: inc/core/Privacy.php:103
+#: inc/core/Privacy.php:105
 msgid "Event"
 msgstr "Événement"
 
 #: inc/core/Admin/EventsTable.php:88
 #: inc/core/Admin/LockoutsTable.php:76
-#: inc/core/Privacy.php:109
+#: inc/core/Privacy.php:111
 msgid "Address"
 msgstr "Adresse"
 
@@ -85,12 +86,12 @@ msgstr "Identifiant essayé"
 
 #: inc/core/Admin/EventsTable.php:90
 #: inc/core/Admin/StatsView.php:431
-#: inc/core/Privacy.php:104
+#: inc/core/Privacy.php:106
 msgid "Way in"
 msgstr "Voie d’entrée"
 
 #: inc/core/Admin/EventsTable.php:92
-#: inc/core/Privacy.php:114
+#: inc/core/Privacy.php:116
 msgid "Detail"
 msgstr "Détail"
 
@@ -137,7 +138,7 @@ msgstr "Tout supprimer"
 #: inc/core/Admin/EventsView.php:226
 #: inc/core/Admin/LockoutsView.php:141
 #: inc/core/Admin/LockoutsView.php:155
-#: inc/core/Admin/SettingsPage.php:783
+#: inc/core/Admin/SettingsPage.php:785
 msgid "Sorry, you are not allowed to do that."
 msgstr "Désolé, vous n’avez pas l’autorisation de faire cela."
 
@@ -159,12 +160,12 @@ msgid "Brute force"
 msgstr "Force brute"
 
 #: inc/core/Admin/Help.php:70
-#: inc/core/Admin/SettingsPage.php:626
+#: inc/core/Admin/SettingsPage.php:627
 msgid "Addresses"
 msgstr "Adresses"
 
 #: inc/core/Admin/Help.php:71
-#: inc/core/Admin/SettingsPage.php:697
+#: inc/core/Admin/SettingsPage.php:698
 msgid "Account enumeration"
 msgstr "Énumération des comptes"
 
@@ -273,7 +274,7 @@ msgid "Every address was released."
 msgstr "Toutes les adresses ont été libérées."
 
 #: inc/core/Admin/SettingsPage.php:255
-#: inc/core/Admin/SettingsPage.php:432
+#: inc/core/Admin/SettingsPage.php:433
 msgid "Settings"
 msgstr "Réglages"
 
@@ -285,168 +286,168 @@ msgstr "Statistiques"
 msgid "Journal"
 msgstr "Journal"
 
-#: inc/core/Admin/SettingsPage.php:589
+#: inc/core/Admin/SettingsPage.php:590
 msgid "Every setting is back to its default."
 msgstr "Tous les réglages sont revenus à leur valeur par défaut."
 
 #. translators: %s: IP address, or the IPv6 network it belongs to
-#: inc/core/Admin/SettingsPage.php:598
+#: inc/core/Admin/SettingsPage.php:599
 #, php-format
 msgid "%s is on the safelist."
 msgstr "%s est sur la liste de confiance."
 
-#: inc/core/Admin/SettingsPage.php:601
+#: inc/core/Admin/SettingsPage.php:602
 msgid "Your address could not be read: nothing was added to the safelist."
 msgstr "Votre adresse n’a pas pu être lue : rien n’a été ajouté à la liste de confiance."
 
-#: inc/core/Admin/SettingsPage.php:614
+#: inc/core/Admin/SettingsPage.php:615
 msgid "Lock out brute force"
 msgstr "Verrouiller la force brute"
 
-#: inc/core/Admin/SettingsPage.php:614
+#: inc/core/Admin/SettingsPage.php:615
 msgid "Count the failed logins of each address and refuse its logins, registrations and password resets while it is locked out."
 msgstr "Compter les connexions échouées de chaque adresse et refuser ses connexions, inscriptions et réinitialisations de mot de passe pendant qu’elle est verrouillée."
 
-#: inc/core/Admin/SettingsPage.php:615
+#: inc/core/Admin/SettingsPage.php:616
 msgid "Failures before a lockout"
 msgstr "Échecs avant un verrouillage"
 
-#: inc/core/Admin/SettingsPage.php:615
+#: inc/core/Admin/SettingsPage.php:616
 msgid "failures"
 msgstr "échecs"
 
-#: inc/core/Admin/SettingsPage.php:616
+#: inc/core/Admin/SettingsPage.php:617
 msgid "Failures are counted for"
 msgstr "Les échecs sont comptés pendant"
 
-#: inc/core/Admin/SettingsPage.php:616
 #: inc/core/Admin/SettingsPage.php:617
+#: inc/core/Admin/SettingsPage.php:618
 msgid "minutes"
 msgstr "minutes"
 
-#: inc/core/Admin/SettingsPage.php:617
+#: inc/core/Admin/SettingsPage.php:618
 #: inc/core/Events.php:124
 msgid "Lockout"
 msgstr "Verrouillage"
 
-#: inc/core/Admin/SettingsPage.php:618
+#: inc/core/Admin/SettingsPage.php:619
 msgid "Lockouts before a long one"
 msgstr "Verrouillages avant un long"
 
-#: inc/core/Admin/SettingsPage.php:618
+#: inc/core/Admin/SettingsPage.php:619
 msgid "lockouts"
 msgstr "verrouillages"
 
-#: inc/core/Admin/SettingsPage.php:619
+#: inc/core/Admin/SettingsPage.php:620
 msgid "Lockouts are counted for"
 msgstr "Les verrouillages sont comptés pendant"
 
-#: inc/core/Admin/SettingsPage.php:619
 #: inc/core/Admin/SettingsPage.php:620
+#: inc/core/Admin/SettingsPage.php:621
 msgid "hours"
 msgstr "heures"
 
-#: inc/core/Admin/SettingsPage.php:620
+#: inc/core/Admin/SettingsPage.php:621
 msgid "Long lockout"
 msgstr "Verrouillage long"
 
-#: inc/core/Admin/SettingsPage.php:620
+#: inc/core/Admin/SettingsPage.php:621
 msgid "After it, the lockouts are counted from zero."
 msgstr "Après lui, les verrouillages sont comptés depuis zéro."
 
-#: inc/core/Admin/SettingsPage.php:631
+#: inc/core/Admin/SettingsPage.php:632
 msgid "Your address cannot be read with the current settings."
 msgstr "Votre adresse ne peut pas être lue avec les réglages actuels."
 
 #. translators: %s: IP address
-#: inc/core/Admin/SettingsPage.php:635
+#: inc/core/Admin/SettingsPage.php:636
 #, php-format
 msgid "Your address, as the settings read it: %s"
 msgstr "Votre adresse, telle que les réglages la lisent : %s"
 
-#: inc/core/Admin/SettingsPage.php:640
+#: inc/core/Admin/SettingsPage.php:641
 #: inc/core/Admin/SiteHealth.php:546
 msgid "Address of the visitor"
 msgstr "Adresse du visiteur"
 
-#: inc/core/Admin/SettingsPage.php:640
+#: inc/core/Admin/SettingsPage.php:641
 msgid "A header is read only when the request comes from one of the trusted proxies below, and the address the server saw is used otherwise: anyone can send a header."
 msgstr "Un en-tête n’est lu que si la requête vient d’un des proxys de confiance ci-dessous, et l’adresse vue par le serveur est utilisée sinon : n’importe qui peut envoyer un en-tête."
 
-#: inc/core/Admin/SettingsPage.php:641
+#: inc/core/Admin/SettingsPage.php:642
 #: inc/core/Admin/SiteHealth.php:547
 msgid "Trusted proxies"
 msgstr "Proxys de confiance"
 
-#: inc/core/Admin/SettingsPage.php:644
+#: inc/core/Admin/SettingsPage.php:645
 #: inc/core/Admin/SiteHealth.php:548
 msgid "Safelist"
 msgstr "Liste de confiance"
 
-#: inc/core/Admin/SettingsPage.php:698
+#: inc/core/Admin/SettingsPage.php:699
 msgid "WordPress lists its accounts to anyone in several places. A bot reads them there, then has only the passwords to guess."
 msgstr "WordPress liste ses comptes à n’importe qui à plusieurs endroits. Un robot les y lit, puis n’a plus que les mots de passe à deviner."
 
-#: inc/core/Admin/SettingsPage.php:700
+#: inc/core/Admin/SettingsPage.php:701
 #: inc/core/Admin/SiteHealth.php:518
 msgid "Author archives"
 msgstr "Archives d’auteur"
 
-#: inc/core/Admin/SettingsPage.php:701
+#: inc/core/Admin/SettingsPage.php:702
 #: inc/core/Admin/SiteHealth.php:518
 #: inc/core/Events.php:165
 msgid "REST API users"
 msgstr "Utilisateurs de l’API REST"
 
-#: inc/core/Admin/SettingsPage.php:702
+#: inc/core/Admin/SettingsPage.php:703
 #: inc/core/Admin/SiteHealth.php:518
 msgid "oEmbed"
 msgstr "oEmbed"
 
-#: inc/core/Admin/SettingsPage.php:702
+#: inc/core/Admin/SettingsPage.php:703
 msgid "Leave the author out of the oEmbed data of a post."
 msgstr "Laisser l’auteur hors des données oEmbed d’un article."
 
-#: inc/core/Admin/SettingsPage.php:703
+#: inc/core/Admin/SettingsPage.php:704
 #: inc/core/Admin/SiteHealth.php:518
 msgid "Sitemap"
 msgstr "Plan du site"
 
-#: inc/core/Admin/SettingsPage.php:703
+#: inc/core/Admin/SettingsPage.php:704
 msgid "Leave the users out of the sitemap of WordPress."
 msgstr "Laisser les utilisateurs hors du plan du site de WordPress."
 
-#: inc/core/Admin/SettingsPage.php:704
+#: inc/core/Admin/SettingsPage.php:705
 #: inc/core/Admin/SiteHealth.php:518
 msgid "Login errors"
 msgstr "Erreurs de connexion"
 
-#: inc/core/Admin/SettingsPage.php:704
+#: inc/core/Admin/SettingsPage.php:705
 msgid "Give a failed login one message, whether the login or the password was wrong, on the login form, WooCommerce and XML-RPC; and a password reset one message, whether the account exists or not."
 msgstr "Donner un seul message à une connexion échouée, que l’identifiant ou le mot de passe soit faux, sur le formulaire de connexion, WooCommerce et XML-RPC ; et un seul message à une réinitialisation de mot de passe, que le compte existe ou non."
 
-#: inc/core/Admin/SettingsPage.php:682
+#: inc/core/Admin/SettingsPage.php:683
 msgid "Logins refused"
 msgstr "Identifiants refusés"
 
-#: inc/core/Admin/SettingsPage.php:742
+#: inc/core/Admin/SettingsPage.php:743
 msgid "Journal and statistics"
 msgstr "Journal et statistiques"
 
-#: inc/core/Admin/SettingsPage.php:747
+#: inc/core/Admin/SettingsPage.php:749
 msgid "Keep the journal"
 msgstr "Conserver le journal"
 
-#: inc/core/Admin/SettingsPage.php:747
-#: inc/core/Admin/SettingsPage.php:748
+#: inc/core/Admin/SettingsPage.php:749
+#: inc/core/Admin/SettingsPage.php:750
 msgid "days"
 msgstr "jours"
 
-#: inc/core/Admin/SettingsPage.php:748
+#: inc/core/Admin/SettingsPage.php:750
 msgid "Keep the statistics"
 msgstr "Conserver les statistiques"
 
-#: inc/core/Admin/SettingsPage.php:759
+#: inc/core/Admin/SettingsPage.php:761
 msgid "Restore the default settings"
 msgstr "Restaurer les réglages par défaut"
 
@@ -718,7 +719,7 @@ msgstr "X-Real-IP, envoyé par nginx"
 msgid "CF-Connecting-IP, sent by Cloudflare"
 msgstr "CF-Connecting-IP, envoyé par Cloudflare"
 
-#: inc/core/Settings.php:358
+#: inc/core/Settings.php:359
 msgid "A header is read only from a proxy you trust: list the addresses of your proxies, or keep the address the server saw. The address the server saw is kept."
 msgstr "Un en-tête n’est lu que depuis un proxy de confiance : listez les adresses de vos proxys, ou gardez l’adresse vue par le serveur. L’adresse vue par le serveur est conservée."
 
@@ -730,7 +731,7 @@ msgstr "Chaque connexion qui échoue sur son identifiant ou son mot de passe com
 msgid "Failures are counted within a window; at the maximum the address is locked out and its failures go back to zero. While locked out, its logins are refused before the password is checked, and so are its registrations and password resets. A successful login does not clear the failures: on a site open to registration, a bot owning one account would log into it between two runs of guesses."
 msgstr "Les échecs sont comptés dans une fenêtre ; au maximum, l’adresse est verrouillée et ses échecs repartent de zéro. Pendant le verrouillage, ses connexions sont refusées avant la vérification du mot de passe, ainsi que ses inscriptions et ses réinitialisations de mot de passe. Une connexion réussie n’efface pas les échecs : sur un site ouvert aux inscriptions, un robot possédant un compte s’y connecterait entre deux séries d’essais."
 
-#: inc/core/Admin/SettingsPage.php:616
+#: inc/core/Admin/SettingsPage.php:617
 msgid "Failures older than this are forgotten. A successful login does not forget them: a bot owning one account would log into it between two runs of guesses."
 msgstr "Les échecs plus anciens sont oubliés. Une connexion réussie ne les oublie pas : un robot possédant un compte s’y connecterait entre deux séries d’essais."
 
@@ -738,11 +739,11 @@ msgstr "Les échecs plus anciens sont oubliés. Une connexion réussie ne les ou
 msgid "lost password"
 msgstr "mot de passe perdu"
 
-#: inc/core/Admin/SettingsPage.php:710
+#: inc/core/Admin/SettingsPage.php:711
 msgid "Switch XML-RPC off"
 msgstr "Désactiver XML-RPC"
 
-#: inc/core/Admin/SettingsPage.php:710
+#: inc/core/Admin/SettingsPage.php:711
 msgid "Refuse every call of xmlrpc.php. A bot tries hundreds of passwords in one call through it; Jetpack and the mobile app of WordPress need it."
 msgstr "Refuser tout appel de xmlrpc.php. Un robot y essaie des centaines de mots de passe en un seul appel ; Jetpack et l’application mobile de WordPress en ont besoin."
 
@@ -760,19 +761,19 @@ msgstr "XML-RPC est désactivé sur ce site."
 msgid "Failed logins and lockouts through %s over the period. The same figures follow in a table."
 msgstr "Connexions échouées et verrouillages via %s sur la période. Les mêmes chiffres suivent dans un tableau."
 
-#: inc/core/Admin/SettingsPage.php:711
+#: inc/core/Admin/SettingsPage.php:712
 msgid "Refuse pingbacks"
 msgstr "Refuser les pings"
 
-#: inc/core/Admin/SettingsPage.php:711
+#: inc/core/Admin/SettingsPage.php:712
 msgid "Drop the pingback methods of XML-RPC and the header announcing them. A pingback makes the server fetch an address a stranger chose: the usual way to bounce a site into a denial of service."
 msgstr "Retirer les méthodes de ping de XML-RPC et l’en-tête qui les annonce. Un ping fait charger au serveur une adresse choisie par un inconnu : le moyen habituel de faire rebondir un site dans un déni de service."
 
-#: inc/core/Admin/SettingsPage.php:712
+#: inc/core/Admin/SettingsPage.php:713
 msgid "Refuse trackbacks"
 msgstr "Refuser les rétroliens"
 
-#: inc/core/Admin/SettingsPage.php:712
+#: inc/core/Admin/SettingsPage.php:713
 msgid "Answer wp-trackback.php with a refusal before it fetches anything. A trackback is a link notification any stranger can send; spam fills it, nothing recent uses it."
 msgstr "Répondre à wp-trackback.php par un refus avant qu’il ne charge quoi que ce soit. Un rétrolien est une notification de lien que n’importe quel inconnu peut envoyer ; le spam s’en sert, plus rien de récent."
 
@@ -788,38 +789,38 @@ msgstr "Rétroliens refusés"
 msgid "Trackbacks are refused on this site."
 msgstr "Les rétroliens sont refusés sur ce site."
 
-#: inc/core/Admin/SettingsPage.php:718
+#: inc/core/Admin/SettingsPage.php:719
 #: inc/core/Admin/SiteHealth.php:518
 msgid "Security headers"
 msgstr "En-têtes de sécurité"
 
-#: inc/core/Admin/SettingsPage.php:720
+#: inc/core/Admin/SettingsPage.php:721
 msgid "Send X-Content-Type-Options, Referrer-Policy and a frame-ancestors policy with every response: the browser then neither guesses the type of a file, nor tells a third party the page it comes from, nor shows the site inside another. A header the server already sends is left alone."
 msgstr "Envoyer X-Content-Type-Options, Referrer-Policy et une politique frame-ancestors avec chaque réponse : le navigateur ne devine plus le type d’un fichier, ne dit plus à un tiers de quelle page il vient et n’affiche plus le site à l’intérieur d’un autre. Un en-tête que le serveur envoie déjà est laissé tel quel."
 
-#: inc/core/Admin/SettingsPage.php:732
+#: inc/core/Admin/SettingsPage.php:733
 #: inc/core/Admin/SiteHealth.php:518
 msgid "HSTS"
 msgstr "HSTS"
 
-#: inc/core/Admin/SettingsPage.php:734
+#: inc/core/Admin/SettingsPage.php:735
 msgid "Tell the browsers to reach the site over HTTPS only, for six months. For a site that will keep HTTPS: once sent, a browser holds it for the whole six months."
 msgstr "Dire aux navigateurs de ne joindre le site qu’en HTTPS, pendant six mois. Pour un site qui gardera HTTPS : une fois envoyé, un navigateur s’y tient pendant les six mois entiers."
 
-#: inc/core/Admin/SettingsPage.php:739
+#: inc/core/Admin/SettingsPage.php:740
 msgid "File editor"
 msgstr "Éditeur de fichiers"
 
-#: inc/core/Admin/SettingsPage.php:739
+#: inc/core/Admin/SettingsPage.php:740
 msgid "Switch the theme and plugin editors of the admin off. A compromised administrator account would use them to put PHP on the server; installs and updates stay possible."
 msgstr "Désactiver les éditeurs de thème et d’extension de l’administration. Un compte administrateur compromis s’en servirait pour déposer du PHP sur le serveur ; installations et mises à jour restent possibles."
 
-#: inc/core/Admin/SettingsPage.php:744
+#: inc/core/Admin/SettingsPage.php:745
 #: inc/core/Admin/StatsView.php:476
 msgid "Successful logins"
 msgstr "Connexions réussies"
 
-#: inc/core/Admin/SettingsPage.php:744
+#: inc/core/Admin/SettingsPage.php:745
 msgid "Record each successful login in the journal, with the address, the way in and the roles of the account, application passwords included: where an administrator logging in from an unusual address shows."
 msgstr "Enregistrer chaque connexion réussie dans le journal, avec l’adresse, la voie d’entrée et les rôles du compte, mots de passe d’application compris : c’est là qu’un administrateur connecté depuis une adresse inhabituelle apparaît."
 
@@ -850,16 +851,16 @@ msgstr "× %s"
 msgid "until %s"
 msgstr "jusqu’au %s"
 
-#: inc/core/Admin/SettingsPage.php:355
+#: inc/core/Admin/SettingsPage.php:356
 msgid "When a password is set or used to log in, five characters of a hash of it are sent to the Have I Been Pwned service, to tell whether it appears in known data breaches; the password itself, the login and the address of the visitor are not sent."
 msgstr "Quand un mot de passe est défini ou sert à se connecter, cinq caractères d’une empreinte de ce mot de passe sont envoyés au service Have I Been Pwned, pour savoir s’il figure dans des fuites de données connues ; le mot de passe lui-même, l’identifiant et l’adresse du visiteur ne sont pas envoyés."
 
-#: inc/core/Admin/SettingsPage.php:683
+#: inc/core/Admin/SettingsPage.php:684
 #: inc/core/Admin/SiteHealth.php:518
 msgid "Breached passwords"
 msgstr "Mots de passe fuités"
 
-#: inc/core/Admin/SettingsPage.php:683
+#: inc/core/Admin/SettingsPage.php:684
 msgid "Refuse a password that appears in known data breaches when it is set or changed, and warn a user who logs in with one. The check goes through Have I Been Pwned by k-anonymity: five characters of a hash of the password leave the site, nothing else, once a month per account at most. The service silent, the password goes through."
 msgstr "Refuser un mot de passe qui figure dans des fuites de données connues quand il est défini ou changé, et avertir un utilisateur qui se connecte avec. La vérification passe par Have I Been Pwned en k-anonymat : cinq caractères d’une empreinte du mot de passe sortent du site, rien d’autre, une fois par mois et par compte au plus. Si le service se tait, le mot de passe passe."
 
@@ -945,31 +946,31 @@ msgstr "Votre mot de passe figure dans des fuites de données connues : n’impo
 msgid "Remove"
 msgstr "Retirer"
 
-#: inc/core/Admin/SettingsPage.php:641
+#: inc/core/Admin/SettingsPage.php:642
 msgid "Addresses or networks of the reverse proxy, the load balancer or the CDN in front of the site, as 203.0.113.5 or 2001:db8::/32. Required for a header to be read."
 msgstr "Adresses ou réseaux du proxy inverse, du répartiteur de charge ou du CDN devant le site, comme 203.0.113.5 ou 2001:db8::/32. Nécessaire pour qu’un en-tête soit lu."
 
-#: inc/core/Admin/SettingsPage.php:646
+#: inc/core/Admin/SettingsPage.php:647
 msgid "Addresses or networks never locked out. Put the office and the administrators here, so that a mistyped password never locks them out."
 msgstr "Adresses ou réseaux jamais verrouillés. Mettez-y le bureau et les administrateurs, pour qu’un mot de passe mal tapé ne les verrouille jamais."
 
-#: inc/core/Admin/SettingsPage.php:654
+#: inc/core/Admin/SettingsPage.php:655
 msgid "Add my address"
 msgstr "Ajouter mon adresse"
 
-#: inc/core/Admin/SettingsPage.php:682
+#: inc/core/Admin/SettingsPage.php:683
 msgid "No account can be registered or created with them, and a failed login on one of them counts double. An account that already carries one keeps it."
 msgstr "Aucun compte ne peut être inscrit ou créé avec eux, et une connexion échouée sur l’un d’eux compte double. Un compte qui en porte déjà un le garde."
 
-#: inc/core/Privacy.php:105
+#: inc/core/Privacy.php:107
 msgid "Login"
 msgstr "Identifiant"
 
-#: inc/core/Privacy.php:118
+#: inc/core/Privacy.php:120
 msgid "Times"
 msgstr "Fois"
 
-#: inc/core/Privacy.php:123
+#: inc/core/Privacy.php:125
 msgid "Security journal"
 msgstr "Journal de sécurité"
 
@@ -989,49 +990,49 @@ msgstr "Filtrer"
 msgid "Search an address or a login"
 msgstr "Rechercher une adresse ou un identifiant"
 
-#: inc/core/Admin/SettingsPage.php:621
+#: inc/core/Admin/SettingsPage.php:622
 msgid "Limit the requests"
 msgstr "Limiter les demandes"
 
-#: inc/core/Admin/SettingsPage.php:621
+#: inc/core/Admin/SettingsPage.php:622
 msgid "Refuse the password resets and the registrations of an address past a number an hour. Neither fails, so nothing else limits them: a robot could flood a mailbox with resets or fill the site with accounts."
 msgstr "Refuser les réinitialisations de mot de passe et les inscriptions d’une adresse au-delà d’un nombre par heure. Aucune des deux n’échoue, donc rien d’autre ne les limite : un robot pourrait inonder une boîte de réinitialisations ou remplir le site de comptes."
 
-#: inc/core/Admin/SettingsPage.php:622
+#: inc/core/Admin/SettingsPage.php:623
 msgid "Password resets an hour"
 msgstr "Réinitialisations par heure"
 
-#: inc/core/Admin/SettingsPage.php:622
 #: inc/core/Admin/SettingsPage.php:623
+#: inc/core/Admin/SettingsPage.php:624
 msgid "requests"
 msgstr "demandes"
 
-#: inc/core/Admin/SettingsPage.php:622
 #: inc/core/Admin/SettingsPage.php:623
+#: inc/core/Admin/SettingsPage.php:624
 msgid "From one address."
 msgstr "Depuis une même adresse."
 
-#: inc/core/Admin/SettingsPage.php:623
+#: inc/core/Admin/SettingsPage.php:624
 msgid "Registrations an hour"
 msgstr "Inscriptions par heure"
 
-#: inc/core/Admin/SettingsPage.php:679
+#: inc/core/Admin/SettingsPage.php:680
 msgid "Accounts"
 msgstr "Comptes"
 
-#: inc/core/Admin/SettingsPage.php:746
+#: inc/core/Admin/SettingsPage.php:748
 msgid "Account changes"
 msgstr "Changements de comptes"
 
-#: inc/core/Admin/SettingsPage.php:746
+#: inc/core/Admin/SettingsPage.php:748
 msgid "Record in the journal every account created or deleted, every role set, added or removed, every e-mail address or password changed, with who did it."
 msgstr "Enregistrer dans le journal chaque compte créé ou supprimé, chaque rôle défini, ajouté ou retiré, chaque adresse e-mail ou mot de passe changé, avec qui l’a fait."
 
-#: inc/core/Admin/SettingsPage.php:684
+#: inc/core/Admin/SettingsPage.php:685
 msgid "New administrator alert"
 msgstr "Alerte nouvel administrateur"
 
-#: inc/core/Admin/SettingsPage.php:684
+#: inc/core/Admin/SettingsPage.php:685
 msgid "Mail the address of the site when an account is created as administrator or promoted to it. An intruder creates a second administrator to stay."
 msgstr "Envoyer un e-mail à l’adresse du site quand un compte est créé administrateur ou promu à ce rôle. Un intrus crée un second administrateur pour durer."
 
@@ -1132,23 +1133,23 @@ msgstr "readme.html et license.txt donnent la version de WordPress à n’import
 msgid "Site Health info"
 msgstr "Infos de Santé du site"
 
-#: inc/core/Admin/SettingsPage.php:611
+#: inc/core/Admin/SettingsPage.php:612
 msgid "Logins"
 msgstr "Connexions"
 
-#: inc/core/Admin/SettingsPage.php:612
+#: inc/core/Admin/SettingsPage.php:613
 msgid "An address that fails too many logins is locked out for a while, on the login form, WooCommerce, XML-RPC and the REST API alike. Repeated lockouts bring a long one. The requests that cost without failing, a password reset or a registration, are limited by the hour."
 msgstr "Une adresse qui échoue trop de connexions est verrouillée pendant un temps, sur le formulaire de connexion, WooCommerce, XML-RPC et l’API REST pareillement. Des verrouillages répétés en amènent un long. Les demandes qui coûtent sans échouer, une réinitialisation de mot de passe ou une inscription, sont limitées par heure."
 
-#: inc/core/Admin/SettingsPage.php:680
+#: inc/core/Admin/SettingsPage.php:681
 msgid "What an account may be called, what password it may carry, and who gets to be an administrator."
 msgstr "Comment un compte peut s’appeler, quel mot de passe il peut porter, et qui devient administrateur."
 
-#: inc/core/Admin/SettingsPage.php:707
+#: inc/core/Admin/SettingsPage.php:708
 msgid "Exposed surface"
 msgstr "Surface exposée"
 
-#: inc/core/Admin/SettingsPage.php:708
+#: inc/core/Admin/SettingsPage.php:709
 msgid "What the site answers and advertises beyond its pages, and what the browsers are told."
 msgstr "Ce que le site répond et annonce au-delà de ses pages, et ce qui est dit aux navigateurs."
 
@@ -1185,12 +1186,12 @@ msgid "Every lockout ended, every failure forgotten."
 msgstr "Tous les verrouillages levés, tous les échecs oubliés."
 
 #. translators: %s: IP address
-#: inc/core/Admin/SettingsPage.php:600
+#: inc/core/Admin/SettingsPage.php:601
 #, php-format
 msgid "%s is a private address and no proxy is trusted: it is the address of a proxy every visitor comes through, and on the safelist it would let everyone in. Name the header the proxy sends and list its address among the trusted proxies first."
 msgstr "%s est une adresse privée et aucun proxy n’est de confiance : c’est l’adresse d’un proxy par lequel passent tous les visiteurs, et sur la liste de confiance elle laisserait entrer tout le monde. Nommez d’abord l’en-tête que le proxy envoie et placez son adresse parmi les proxys de confiance."
 
-#: inc/core/Admin/SettingsPage.php:653
+#: inc/core/Admin/SettingsPage.php:654
 msgid "A private address, with no proxy trusted: every visitor comes through it."
 msgstr "Une adresse privée, sans proxy de confiance : tous les visiteurs passent par elle."
 
@@ -1268,17 +1269,17 @@ msgstr "Rien n’est verrouillé : l’adresse du visiteur ne peut pas être lue
 msgid "Site Health says more."
 msgstr "Santé du site en dit plus."
 
-#: inc/core/Admin/SettingsPage.php:725
+#: inc/core/Admin/SettingsPage.php:726
 msgid "The server sends every one of them on its own: the setting has no effect."
 msgstr "Le serveur les envoie tous de lui-même : le réglage est sans effet."
 
 #. translators: %s: names of HTTP headers
-#: inc/core/Admin/SettingsPage.php:727
+#: inc/core/Admin/SettingsPage.php:728
 #, php-format
 msgid "The server sends %s on its own; Gecka Security adds the others."
 msgstr "Le serveur envoie %s de lui-même ; Gecka Security ajoute les autres."
 
-#: inc/core/Admin/SettingsPage.php:736
+#: inc/core/Admin/SettingsPage.php:737
 msgid "The server sends it on its own: the setting has no effect."
 msgstr "Le serveur l’envoie de lui-même : le réglage est sans effet."
 
@@ -1330,7 +1331,7 @@ msgid "Site"
 msgstr "Site"
 
 #: inc/core/Admin/SettingsPage.php:144
-#: inc/core/Admin/SettingsPage.php:560
+#: inc/core/Admin/SettingsPage.php:561
 msgid "Settings saved."
 msgstr "Réglages enregistrés."
 
@@ -1342,11 +1343,11 @@ msgstr "nommé super administrateur du réseau"
 msgid "no longer super administrator of the network"
 msgstr "n’est plus super administrateur du réseau"
 
-#: inc/core/Setup.php:66
+#: inc/core/Setup.php:67
 msgid "Gecka Security protects the whole network: activate it for the network, from the network admin."
 msgstr "Gecka Security protège tout le réseau : activez-le pour le réseau, depuis l’administration du réseau."
 
-#: inc/core/Admin/SettingsPage.php:748
+#: inc/core/Admin/SettingsPage.php:750
 msgid "Only daily counts are kept, by way in and by kind, and by country, network and system: no address, no login."
 msgstr "Seuls des décomptes journaliers sont gardés, par voie d’entrée et par type, et par pays, réseau et système : aucune adresse, aucun identifiant."
 
@@ -1358,7 +1359,7 @@ msgstr "Provenance"
 msgid "Attempts"
 msgstr "Tentatives"
 
-#: inc/core/Admin/SettingsPage.php:661
+#: inc/core/Admin/SettingsPage.php:662
 #: inc/core/Admin/SiteHealth.php:552
 #: inc/core/Admin/StatsView.php:490
 msgid "Countries"
@@ -1425,7 +1426,7 @@ msgid_plural "To protect the accounts of this site, the logins that fail are rec
 msgstr[0] "Pour protéger les comptes de ce site, les connexions qui échouent sont enregistrées sur ce serveur, sans service externe : l’adresse IP du visiteur, l’identifiant essayé quand il désigne un compte, la voie par laquelle la connexion est arrivée et l’heure. Une adresse qui échoue trop de connexions est refusée pendant un temps. Ces enregistrements sont supprimés après %s jour ; seuls des décomptes journaliers, sans adresse, sont conservés plus longtemps."
 msgstr[1] "Pour protéger les comptes de ce site, les connexions qui échouent sont enregistrées sur ce serveur, sans service externe : l’adresse IP du visiteur, l’identifiant essayé quand il désigne un compte, la voie par laquelle la connexion est arrivée et l’heure. Une adresse qui échoue trop de connexions est refusée pendant un temps. Ces enregistrements sont supprimés après %s jours ; seuls des décomptes journaliers, sans adresse, sont conservés plus longtemps."
 
-#: inc/core/Admin/SettingsPage.php:615
+#: inc/core/Admin/SettingsPage.php:616
 msgid "A failed login on a reserved name counts double."
 msgstr "Une connexion échouée sur un nom réservé compte double."
 
@@ -1543,11 +1544,11 @@ msgid_plural "This password appears in known data breaches, %s times. Choose ano
 msgstr[0] "Ce mot de passe figure dans des fuites de données connues, %s fois. Choisissez-en un autre."
 msgstr[1] "Ce mot de passe figure dans des fuites de données connues, %s fois. Choisissez-en un autre."
 
-#: inc/core/Settings.php:330
+#: inc/core/Settings.php:331
 msgid "A trusted proxy network cannot be wider than a /8 for IPv4 or a /16 for IPv6: with it, anyone could choose the address they are seen under. The list is kept without it."
 msgstr "Un réseau de proxys de confiance ne peut pas être plus large qu’un /8 en IPv4 ou un /16 en IPv6 : avec lui, n’importe qui pourrait choisir l’adresse sous laquelle il est vu. La liste est conservée sans lui."
 
-#: inc/core/Settings.php:337
+#: inc/core/Settings.php:338
 msgid "A safelist network cannot be wider than a /8 for IPv4 or a /16 for IPv6: with it, almost nothing would ever be locked out. The list is kept without it."
 msgstr "Un réseau de la liste de confiance ne peut pas être plus large qu’un /8 en IPv4 ou un /16 en IPv6 : avec lui, presque plus rien ne serait jamais verrouillé. La liste est conservée sans lui."
 
@@ -1567,7 +1568,7 @@ msgstr "un compte dont les données ont été effacées"
 msgid "The login of a failed attempt is recorded even when it names no account."
 msgstr "L’identifiant d’une tentative échouée est enregistré même s’il ne désigne aucun compte."
 
-#: inc/core/Admin/SettingsPage.php:745
+#: inc/core/Admin/SettingsPage.php:747
 msgid "Unknown logins"
 msgstr "Identifiants inconnus"
 
@@ -1587,63 +1588,63 @@ msgstr "Vérifiez que les politiques de confidentialité des sites correspondent
 msgid "The blocklist and the countries refuse a login, a registration and a password reset for good, on every way in, with one message whatever the reason. A visitor already logged in stays so. The country of an address comes from Gecka Geolocation: an address it cannot place, a private one for instance, is never refused for its country. The settings refuse to save a blocklist or countries that would refuse the administrator saving them, unless the safelist holds their address. Locked out of the site anyway, name your address in the GECKA_SECURITY_SAFELIST constant of wp-config.php."
 msgstr "La liste de blocage et les pays refusent définitivement une connexion, une inscription et une réinitialisation de mot de passe, par toutes les voies, avec un même message quelle que soit la raison. Un visiteur déjà connecté le reste. Le pays d’une adresse vient de Gecka Geolocation : une adresse qu’elle ne sait pas situer, une adresse privée par exemple, n’est jamais refusée pour son pays. Les réglages refusent d’enregistrer une liste de blocage ou des pays qui refuseraient l’administrateur qui les enregistre, sauf si la liste de confiance contient son adresse. Si vous êtes verrouillé malgré tout, indiquez votre adresse dans la constante GECKA_SECURITY_SAFELIST de wp-config.php."
 
-#: inc/core/Admin/SettingsPage.php:354
+#: inc/core/Admin/SettingsPage.php:355
 msgid "For an administrator, the networks their account logged in from are kept with it, with their country and the date last seen, so that a login from a new network is mailed to them."
 msgstr "Pour un administrateur, les réseaux depuis lesquels son compte s’est connecté sont conservés avec ce compte, accompagnés de leur pays et de la date à laquelle ils ont été vus pour la dernière fois, afin qu’une connexion depuis un nouveau réseau lui soit signalée par e-mail."
 
-#: inc/core/Admin/SettingsPage.php:657
+#: inc/core/Admin/SettingsPage.php:658
 #: inc/core/Admin/SiteHealth.php:550
 msgid "Blocklist"
 msgstr "Liste de blocage"
 
-#: inc/core/Admin/SettingsPage.php:657
+#: inc/core/Admin/SettingsPage.php:658
 msgid "Addresses or networks refused a login, a registration and a password reset for good, on every way in. The safelist wins over it."
 msgstr "Adresses ou réseaux définitivement refusés à la connexion, à l’inscription et à la réinitialisation de mot de passe, par toutes les voies. La liste de confiance l’emporte sur elle."
 
-#: inc/core/Admin/SettingsPage.php:664
+#: inc/core/Admin/SettingsPage.php:665
 msgid "Every country"
 msgstr "Tous les pays"
 
-#: inc/core/Admin/SettingsPage.php:665
+#: inc/core/Admin/SettingsPage.php:666
 msgid "Only the countries listed below"
 msgstr "Uniquement les pays listés ci-dessous"
 
-#: inc/core/Admin/SettingsPage.php:666
+#: inc/core/Admin/SettingsPage.php:667
 msgid "Every country but those listed below"
 msgstr "Tous les pays sauf ceux listés ci-dessous"
 
-#: inc/core/Admin/SettingsPage.php:669
+#: inc/core/Admin/SettingsPage.php:670
 msgid "Needs the Gecka Geolocation plugin, which tells the country of an address: without it, the countries are not checked."
 msgstr "Nécessite l’extension Gecka Geolocation, qui donne le pays d’une adresse : sans elle, les pays ne sont pas vérifiés."
 
 #. translators: %s: country name
-#: inc/core/Admin/SettingsPage.php:672
+#: inc/core/Admin/SettingsPage.php:673
 #, php-format
 msgid "An address whose country is unknown is never refused for it. Your country: %s."
 msgstr "Une adresse dont le pays est inconnu n’est jamais refusée pour cela. Votre pays : %s."
 
-#: inc/core/Admin/SettingsPage.php:673
+#: inc/core/Admin/SettingsPage.php:674
 msgid "An address whose country is unknown is never refused for it."
 msgstr "Une adresse dont le pays est inconnu n’est jamais refusée pour cela."
 
-#: inc/core/Admin/SettingsPage.php:676
+#: inc/core/Admin/SettingsPage.php:677
 msgid "Countries listed"
 msgstr "Pays listés"
 
-#: inc/core/Admin/SettingsPage.php:676
+#: inc/core/Admin/SettingsPage.php:677
 msgid "Codes of two letters, as NC, FR or AU. The safelist lets an address in whatever its country."
 msgstr "Codes à deux lettres, comme NC, FR ou AU. La liste de confiance laisse passer une adresse quel que soit son pays."
 
-#: inc/core/Admin/SettingsPage.php:687
+#: inc/core/Admin/SettingsPage.php:688
 #: inc/core/Admin/SiteHealth.php:518
 msgid "New network alert"
 msgstr "Alerte nouveau réseau"
 
-#: inc/core/Admin/SettingsPage.php:689
+#: inc/core/Admin/SettingsPage.php:690
 msgid "Mail an administrator who logs in from a network their account never logged in from, with the country and the network: a stolen password shows there first. The first login of an account only learns its network."
 msgstr "Envoyer un e-mail à un administrateur qui se connecte depuis un réseau d’où son compte ne s’est jamais connecté, avec le pays et le réseau : un mot de passe volé se voit d’abord là. La première connexion d’un compte ne fait qu’apprendre son réseau."
 
-#: inc/core/Admin/SettingsPage.php:691
+#: inc/core/Admin/SettingsPage.php:692
 msgid "Needs the Gecka Geolocation plugin, which tells the network of an address."
 msgstr "Nécessite l’extension Gecka Geolocation, qui donne le réseau d’une adresse."
 
@@ -1719,42 +1720,42 @@ msgstr "Si c’était vous, il n’y a rien à faire. Sinon, changez votre mot d
 msgid "[%1$s] Login from a new network: %2$s"
 msgstr "[%1$s] Connexion depuis un nouveau réseau : %2$s"
 
-#: inc/core/Privacy.php:137
+#: inc/core/Privacy.php:154
 msgid "Networks logged in from"
 msgstr "Réseaux de connexion"
 
-#: inc/core/Privacy.php:138
+#: inc/core/Privacy.php:155
 msgid "The networks the account logged in from, which Gecka Security keeps to tell the person about a login from a new one."
 msgstr "Les réseaux depuis lesquels le compte s’est connecté, que Gecka Security garde pour prévenir la personne d’une connexion depuis un nouveau réseau."
 
-#: inc/core/Privacy.php:141
+#: inc/core/Privacy.php:158
 msgid "Network"
 msgstr "Réseau"
 
-#: inc/core/Privacy.php:142
+#: inc/core/Privacy.php:159
 msgid "Country"
 msgstr "Pays"
 
-#: inc/core/Privacy.php:143
+#: inc/core/Privacy.php:160
 msgid "Last seen"
 msgstr "Vu pour la dernière fois"
 
-#: inc/core/Settings.php:344
+#: inc/core/Settings.php:345
 msgid "A blocklist network cannot be wider than a /8 for IPv4 or a /16 for IPv6: refuse a whole region by its country instead. The list is kept without it."
 msgstr "Un réseau de la liste de blocage ne peut pas être plus large qu’un /8 en IPv4 ou un /16 en IPv6 : refusez plutôt toute une région par son pays. La liste est conservée sans lui."
 
-#: inc/core/Settings.php:353
+#: inc/core/Settings.php:354
 msgid "Name the countries allowed to log in: with none, every country would be refused. The countries are not checked."
 msgstr "Indiquez les pays autorisés à se connecter : sans aucun pays, tous seraient refusés. Les pays ne sont pas vérifiés."
 
 #. translators: %s: IP address
-#: inc/core/Settings.php:373
+#: inc/core/Settings.php:374
 #, php-format
 msgid "The blocklist would refuse your own address, %s. The list is kept without the networks holding it."
 msgstr "La liste de blocage refuserait votre propre adresse, %s. La liste est gardée sans les réseaux qui la contiennent."
 
 #. translators: %s: country code
-#: inc/core/Settings.php:381
+#: inc/core/Settings.php:382
 #, php-format
 msgid "The countries would refuse your own address, from %s. They are kept as they were."
 msgstr "Les pays refuseraient votre propre adresse, dont le pays est %s. Ils sont gardés tels qu’ils étaient."
@@ -1819,7 +1820,7 @@ msgid "Plugins"
 msgstr "Extensions"
 
 #. translators: %s: IP address
-#: inc/core/Admin/SettingsPage.php:633
+#: inc/core/Admin/SettingsPage.php:634
 #, php-format
 msgid "Your address, as the settings read it: %s, the server itself. You are browsing from its machine and are never locked out; the other visitors are watched under their own address."
 msgstr "Votre adresse, telle que les réglages la lisent : %s, le serveur lui-même. Vous naviguez depuis sa machine et n’êtes jamais verrouillé ; les autres visiteurs sont surveillés sous leur propre adresse."
@@ -1851,28 +1852,28 @@ msgstr "Les robots essaient une poignée d’identifiants en premier, admin avan
 msgid "The changes made to the accounts are recorded too, with who made them: a creation, a role, an e-mail address, the old one and the new, a password changed, a deletion."
 msgstr "Les modifications des comptes sont aussi enregistrées, avec leur auteur : une création, un rôle, une adresse e-mail, l’ancienne et la nouvelle, un mot de passe changé, une suppression."
 
-#: inc/core/Admin/SettingsPage.php:745
+#: inc/core/Admin/SettingsPage.php:747
 msgid "Record the login of a failure even when it names no account, to see which names the bots try; a password typed in the login field is then kept too. Off, the journal keeps only the logins naming an account or a reserved name."
 msgstr "Enregistrer l’identifiant d’un échec même s’il ne désigne aucun compte, pour voir quels noms les robots essaient ; un mot de passe tapé dans le champ de l’identifiant est alors gardé aussi. Désactivé, le journal ne garde que les identifiants qui désignent un compte ou un nom réservé."
 
-#: inc/core/Admin/SettingsPage.php:747
+#: inc/core/Admin/SettingsPage.php:749
 msgid "The events with the address and the login tried. An address watched is forgotten once idle longer than the windows its failures and lockouts are counted for."
 msgstr "Les événements avec l’adresse et l’identifiant essayé. Une adresse surveillée est oubliée une fois inactive plus longtemps que les fenêtres où ses échecs et ses verrouillages sont comptés."
 
-#: inc/core/Admin/SettingsPage.php:758
+#: inc/core/Admin/SettingsPage.php:760
 msgid "Put every setting back to its default? The safelist, the trusted proxies, the blocklist and the countries are emptied."
 msgstr "Remettre tous les réglages à leur valeur par défaut ? La liste de confiance, les proxys de confiance, la liste de blocage et les pays sont vidés."
 
-#: inc/core/Privacy.php:124
+#: inc/core/Privacy.php:126
 msgid "The logins, the refusals and the account changes Gecka Security recorded for this person. The address goes with the logins they made; an attempt on their login may be someone else's, its address is not given."
 msgstr "Les connexions, les refus et les modifications de compte que Gecka Security a enregistrés pour cette personne. L’adresse accompagne les connexions qu’elle a faites ; une tentative sur son identifiant peut venir de quelqu’un d’autre, son adresse n’est pas donnée."
 
-#: inc/core/Admin/SettingsPage.php:694
+#: inc/core/Admin/SettingsPage.php:695
 #: inc/core/Admin/SiteHealth.php:518
 msgid "Login alert"
 msgstr "Alerte de connexion"
 
-#: inc/core/Admin/SettingsPage.php:694
+#: inc/core/Admin/SettingsPage.php:695
 msgid "Mail every user at each of their logins, with the date, the address and the system, and the country and the network with Gecka Geolocation: the owner of an account sees a login they did not make. Logins with an application password are not mailed."
 msgstr "Envoyer un e-mail à chaque utilisateur à chacune de ses connexions, avec la date, l’adresse et le système, et le pays et le réseau avec Gecka Geolocation : le titulaire d’un compte voit une connexion qu’il n’a pas faite. Les connexions par mot de passe d’application ne sont pas signalées."
 
@@ -1908,10 +1909,38 @@ msgstr "[%s] Connexion à votre compte"
 msgid "The accounts that can write posts keep the REST route and the archives, as the editor of WordPress lists the authors to them. Subscribers and customers are visitors here: on a site open to registration, anyone becomes one. The REST setting is off by default: some plugins read the route to show the authors of the site to visitors, and closing it gains little while the author archives still answer."
 msgstr "Les comptes qui peuvent écrire des articles gardent la route REST et les archives, comme l’éditeur de WordPress leur liste les auteurs. Abonnés et clients sont ici des visiteurs : sur un site ouvert aux inscriptions, n’importe qui en devient un. Le réglage REST est désactivé par défaut : certaines extensions lisent la route pour montrer les auteurs du site aux visiteurs, et la fermer apporte peu tant que les archives d’auteur répondent."
 
-#: inc/core/Admin/SettingsPage.php:700
+#: inc/core/Admin/SettingsPage.php:701
 msgid "Answer the archive of an author with a 404 to visitors, whether asked by its address or by ?author=1, and never redirect ?author=1 to it. Subscribers and customers count as visitors."
 msgstr "Répondre à l’archive d’un auteur par une 404 aux visiteurs, qu’elle soit demandée par son adresse ou par ?author=1, et ne jamais rediriger ?author=1 vers elle. Abonnés et clients comptent comme visiteurs."
 
-#: inc/core/Admin/SettingsPage.php:701
+#: inc/core/Admin/SettingsPage.php:702
 msgid "Refuse /wp/v2/users to visitors, subscribers and customers included. Accounts that can write posts keep it. Off by default: some plugins read it to show content, check the site after switching it on."
 msgstr "Refuser /wp/v2/users aux visiteurs, abonnés et clients compris. Les comptes qui peuvent écrire des articles la gardent. Désactivé par défaut : certaines extensions la lisent pour afficher du contenu, vérifiez le site après l’avoir activé."
+
+#: inc/core/Admin/SettingsPage.php:354
+msgid "The date of the last login of each account is kept with it, for the administrators to see in the list of users."
+msgstr "La date de la dernière connexion de chaque compte est conservée avec lui, pour que les administrateurs la voient dans la liste des utilisateurs."
+
+#: inc/core/Admin/SettingsPage.php:746
+#: inc/core/Integrations/LastLogin.php:108
+#: inc/core/Privacy.php:142
+msgid "Last login"
+msgstr "Dernière connexion"
+
+#: inc/core/Admin/SettingsPage.php:746
+msgid "Keep the date of the last login of each account and show it in a sortable column of the list of users: an account nobody uses any more is still a way in. Logins with an application password do not count."
+msgstr "Conserver la date de la dernière connexion de chaque compte et l’afficher dans une colonne triable de la liste des utilisateurs : un compte que plus personne n’utilise reste une porte d’entrée. Les connexions par mot de passe d’application ne comptent pas."
+
+#: inc/core/Integrations/LastLogin.php:149
+msgid "No login recorded"
+msgstr "Aucune connexion enregistrée"
+
+#. translators: %s: human-readable time difference, as "3 hours"
+#: inc/core/Integrations/LastLogin.php:156
+#, php-format
+msgid "%s ago"
+msgstr "il y a %s"
+
+#: inc/core/Privacy.php:143
+msgid "The date of the last login of the account, which Gecka Security keeps for the administrators of the site."
+msgstr "La date de la dernière connexion du compte, que Gecka Security conserve pour les administrateurs du site."

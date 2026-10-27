@@ -15,6 +15,7 @@ use Gecka\WP\Plugin\Security\Integrations\Editor;
 use Gecka\WP\Plugin\Security\Integrations\Enumeration;
 use Gecka\WP\Plugin\Security\Integrations\Headers;
 use Gecka\WP\Plugin\Security\Integrations\Integration;
+use Gecka\WP\Plugin\Security\Integrations\LastLogin;
 use Gecka\WP\Plugin\Security\Integrations\Login;
 use Gecka\WP\Plugin\Security\Integrations\LoginAlerts;
 use Gecka\WP\Plugin\Security\Integrations\Logins;
@@ -206,6 +207,7 @@ class Plugin
             Headers::class => $any('security_headers', 'hsts'),
             Editor::class => $any('file_edit_disabled'),
             Logins::class => $any('log_logins'),
+            LastLogin::class => $any('last_login'),
             NewNetworks::class => $any('alert_new_network'),
             LoginAlerts::class => $any('alert_logins'),
             Pwned::class => $any('pwned_passwords'),

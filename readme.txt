@@ -64,6 +64,7 @@ Addresses and networks on the blocklist are refused logins, registrations and pa
 = Journal and statistics =
 
 * **Journal**: failed logins, lockouts, refused requests, successful logins with the account roles, and account changes (creation, role, email, password, deletion) with who made them.
+* **Last login** of each account in a sortable column of the users list, to spot the accounts nobody uses any more.
 * **Statistics** over 7, 30, 90 or 365 days, with charts by entry point and, with Gecka Geolocation, the countries and networks the attempts come from.
 * **Lockouts**: the addresses currently locked out, to release or add to the safelist.
 * **Dashboard widget** summarising the last seven days.

@@ -11,6 +11,7 @@ use Gecka\WP\Plugin\Security\Admin\EventsView;
 use Gecka\WP\Plugin\Security\Admin\LockoutsView;
 use Gecka\WP\Plugin\Security\Admin\SettingsPage;
 use Gecka\WP\Plugin\Security\Integrations\Headers;
+use Gecka\WP\Plugin\Security\Integrations\LastLogin;
 use Gecka\WP\Plugin\Security\Integrations\NewNetworks;
 use Gecka\WP\Plugin\Security\Integrations\Pwned;
 
@@ -182,8 +183,9 @@ class Setup
 
     /**
      * Drops what the plugin keeps on the users, the rows per page and the
-     * hidden columns of its lists, the verdict on their password and the
-     * networks they logged in from, and the request counters.
+     * hidden columns of its lists, the verdict on their password, the date
+     * of their last login and the networks they logged in from, and the
+     * request counters.
      *
      * @return void
      */
@@ -194,6 +196,7 @@ class Setup
         delete_metadata('user', 0, EventsView::PER_PAGE_OPTION, '', true);
         delete_metadata('user', 0, LockoutsView::PER_PAGE_OPTION, '', true);
         delete_metadata('user', 0, Pwned::META, '', true);
+        delete_metadata('user', 0, LastLogin::META, '', true);
         delete_metadata('user', 0, NewNetworks::META, '', true);
         Throttle::clear();
 

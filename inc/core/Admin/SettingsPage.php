@@ -65,7 +65,7 @@ class SettingsPage extends Base
      * Settings the text suggested for the privacy policy depends on, each a
      * flag or a number.
      */
-    private const PRIVACY_SETTINGS = ['log_logins', 'log_unknown_logins', 'log_accounts', 'pwned_passwords', 'alert_new_network', 'events_days'];
+    private const PRIVACY_SETTINGS = ['log_logins', 'last_login', 'log_unknown_logins', 'log_accounts', 'pwned_passwords', 'alert_new_network', 'events_days'];
 
     /**
      * The Journal tab, set up when its page loads.
@@ -351,6 +351,7 @@ class SettingsPage extends Base
                         number_format_i18n($days),
                     ) . ($this->plugin->settings()->enabled('log_unknown_logins') ? ' ' . __('The login of a failed attempt is recorded even when it names no account.', 'gecka-security') : '')
                     . ($this->plugin->settings()->enabled('log_accounts') ? ' ' . __('The changes made to the accounts are recorded too, with who made them: a creation, a role, an e-mail address, the old one and the new, a password changed, a deletion.', 'gecka-security') : '')
+                    . ($this->plugin->settings()->enabled('last_login') ? ' ' . __('The date of the last login of each account is kept with it, for the administrators to see in the list of users.', 'gecka-security') : '')
                     . ($this->plugin->settings()->enabled('alert_new_network') ? "\n\n" . __('For an administrator, the networks their account logged in from are kept with it, with their country and the date last seen, so that a login from a new network is mailed to them.', 'gecka-security') : '')
                     . ($this->plugin->settings()->enabled('pwned_passwords') ? "\n\n" . __('When a password is set or used to log in, five characters of a hash of it are sent to the Have I Been Pwned service, to tell whether it appears in known data breaches; the password itself, the login and the address of the visitor are not sent.', 'gecka-security') : ''),
                 ),
@@ -742,6 +743,7 @@ class SettingsPage extends Base
         printf('<h2>%s</h2>', esc_html__('Journal and statistics', 'gecka-security'));
         echo '<table class="form-table" role="presentation">';
         $this->checkboxRow('log_logins', __('Successful logins', 'gecka-security'), (bool) $settings['log_logins'], __('Record each successful login in the journal, with the address, the way in and the roles of the account, application passwords included: where an administrator logging in from an unusual address shows.', 'gecka-security'));
+        $this->checkboxRow('last_login', __('Last login', 'gecka-security'), (bool) $settings['last_login'], __('Keep the date of the last login of each account and show it in a sortable column of the list of users: an account nobody uses any more is still a way in. Logins with an application password do not count.', 'gecka-security'));
         $this->checkboxRow('log_unknown_logins', __('Unknown logins', 'gecka-security'), (bool) $settings['log_unknown_logins'], __('Record the login of a failure even when it names no account, to see which names the bots try; a password typed in the login field is then kept too. Off, the journal keeps only the logins naming an account or a reserved name.', 'gecka-security'));
         $this->checkboxRow('log_accounts', __('Account changes', 'gecka-security'), (bool) $settings['log_accounts'], __('Record in the journal every account created or deleted, every role set, added or removed, every e-mail address or password changed, with who did it.', 'gecka-security'));
         $this->numberRow('events_days', __('Keep the journal', 'gecka-security'), Value::int($settings['events_days']), __('days', 'gecka-security'), __('The events with the address and the login tried. An address watched is forgotten once idle longer than the windows its failures and lockouts are counted for.', 'gecka-security'));
